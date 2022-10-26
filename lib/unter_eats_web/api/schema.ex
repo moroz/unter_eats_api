@@ -6,17 +6,18 @@ defmodule UnterEatsWeb.Api.Schema do
   import_types(UnterEatsWeb.Api.Types.Products)
 
   query do
+    import_fields(:product_queries)
   end
 
   alias UnterEatsWeb.Api.Middleware.TransformErrors
   alias UnterEatsWeb.Api.Middleware.RestrictAccess
   alias GraphQLTools.ResolutionWithErrorBoundary
 
-  @public_queries [:current_user]
-  def middleware(middleware, %{identifier: id}, %{identifier: :query})
-      when id in @public_queries do
-    middleware
-  end
+  # @public_queries [:current_user]
+  # def middleware(middleware, %{identifier: id}, %{identifier: :query})
+  #     when id in @public_queries do
+  #   middleware
+  # end
 
   @public_mutations [:sign_in, :sign_out, :sign_up]
   def middleware(middleware, %{identifier: id}, %{identifier: :mutation})
@@ -26,7 +27,7 @@ defmodule UnterEatsWeb.Api.Schema do
 
   def middleware(middleware, _field, %Absinthe.Type.Object{identifier: :query}) do
     List.flatten([
-      RestrictAccess,
+      # RestrictAccess,
       ResolutionWithErrorBoundary.replace_resolution_middleware(middleware)
     ])
   end

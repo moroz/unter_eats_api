@@ -1,6 +1,7 @@
 defmodule UnterEatsWeb.Api.Types.Products do
   use Absinthe.Schema.Notation
   import GraphQLTools.SchemaHelpers
+  alias UnterEatsWeb.Api.Resolvers.ProductResolvers
 
   object :product do
     field :id, non_null(:id)
@@ -12,5 +13,12 @@ defmodule UnterEatsWeb.Api.Types.Products do
     field :slug, non_null(:string)
 
     timestamps()
+  end
+
+  object :product_queries do
+    field :product, :product do
+      arg(:id, non_null(:id))
+      resolve(&ProductResolvers.get_product/2)
+    end
   end
 end
