@@ -3,8 +3,8 @@ defmodule UnterEats.Repo.Migrations.CreateProducts do
 
   def change do
     create table(:products) do
-      add :name_pl, :string
-      add :name_en, :string, null: false
+      add :name_pl, :string, null: false
+      add :name_en, :string
       add :slug, :string, null: false
       add :price, :decimal
       add :description_pl, :text
