@@ -10,6 +10,9 @@ defmodule UnterEats.Products.Product do
     field :price, :decimal
     field :slug, :string
 
+    has_many :products_categories, UnterEats.Products.ProductCategory
+    has_many :categories, through: [:products_categories, :category]
+
     timestamps()
   end
 

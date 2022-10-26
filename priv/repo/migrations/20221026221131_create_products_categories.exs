@@ -3,8 +3,11 @@ defmodule UnterEats.Repo.Migrations.CreateProductsCategories do
 
   def change do
     create table(:products_categories, primary_key: false) do
-      add :product_id, references(:products, on_delete: :nothing), null: false
-      add :category_id, references(:categories, on_delete: :nothing), null: false
+      add :product_id, references(:products, on_delete: :nothing), null: false, primary_key: true
+
+      add :category_id, references(:categories, on_delete: :nothing),
+        null: false,
+        primary_key: true
 
       timestamps(updated_at: false)
     end

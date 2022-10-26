@@ -7,6 +7,9 @@ defmodule UnterEats.Categories.Category do
     field :name_pl, :string
     field :slug, :string
 
+    has_many :products_categories, UnterEats.Products.ProductCategory
+    has_many :products, through: [:products_categories, :product]
+
     timestamps()
   end
 
