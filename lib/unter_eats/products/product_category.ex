@@ -2,11 +2,12 @@ defmodule UnterEats.Products.ProductCategory do
   use UnterEats.Schema
   import Ecto.Changeset
 
+  @primary_key false
   schema "products_categories" do
     belongs_to :product, UnterEats.Products.Product
     belongs_to :category, UnterEats.Categories.Category
 
-    timestamps()
+    timestamps(updated_at: false)
   end
 
   @doc false

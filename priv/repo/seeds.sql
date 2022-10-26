@@ -6,6 +6,7 @@ begin;
   truncate products cascade;
 
   create temporary table menu (
+    id serial primary key,
     name_pl text, name_en text,
     description_pl text, description_en text,
     category text, price decimal
@@ -77,4 +78,8 @@ Woda mineralna,Mineral water,,,Napoje,6
   select uuid_generate_v4(), name_pl, name_en, slugify(name_pl) || '-' || substring(uuid_generate_v4()::text, 1, 4), description_pl, description_en, price, now() at time zone 'utc', now() at time zone 'utc'
   from menu;
 
+  insert into products_categories (product_id, category_id, inserted_at) 
+  select p.id, c.id, now() at time zone 'utc' from products p
+  join menu m on m.name_pl = p.name_pl and (m.name_en = p.name_en or m.name_en is null and p.name_en is null) and (m.price = p.price or m.price is null and p.price is null)
+  join categories c on c.name_pl = (regexp_split_to_array(category, '\s*·\s*'))[1];
 commit;
