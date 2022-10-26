@@ -5,8 +5,11 @@ defmodule UnterEatsWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", UnterEatsWeb do
+  scope "/api" do
     pipe_through :api
+
+    post "/", Absinthe.Plug, schema: UnterEatsWeb.Api.Schema
+    get "/", Absinthe.Plug.GraphiQL, schema: UnterEatsWeb.Api.Schema, interface: :playground
   end
 
   # Enables the Swoosh mailbox preview in development.
