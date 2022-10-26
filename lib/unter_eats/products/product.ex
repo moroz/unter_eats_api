@@ -1,5 +1,5 @@
 defmodule UnterEats.Products.Product do
-  use Ecto.Schema
+  use UnterEats.Schema
   import Ecto.Changeset
 
   schema "products" do

@@ -5,9 +5,6 @@ begin;
   truncate categories cascade;
   truncate products cascade;
 
-  alter sequence categories_id_seq restart;
-  alter sequence products_id_seq restart;
-
   create temporary table menu (
     name_pl text, name_en text,
     description_pl text, description_en text,
@@ -71,13 +68,13 @@ Woda mineralna,Mineral water,,,Napoje,6
 "Napoje gazowane, soki","Soft drinks, fruit juices",,,Napoje,10
 \.
 
-  insert into categories (name_pl, name_en, slug, inserted_at, updated_at)
-  select names[1], names[2], slugify(names[1]), now() at time zone 'utc', now() at time zone 'utc' from (
+  insert into categories (id, name_pl, name_en, slug, inserted_at, updated_at)
+  select uuid_generate_v4(), names[1], names[2], slugify(names[1]), now() at time zone 'utc', now() at time zone 'utc' from (
     select distinct regexp_split_to_array(category, '\s*·\s*') names from menu
   ) s;
 
-  insert into products (name_pl, name_en, slug, description_pl, description_en, price, inserted_at, updated_at)
-  select name_pl, name_en, slugify(name_pl) || '-' || substring(uuid_generate_v4()::text, 1, 4), description_pl, description_en, price, now() at time zone 'utc', now() at time zone 'utc'
+  insert into products (id, name_pl, name_en, slug, description_pl, description_en, price, inserted_at, updated_at)
+  select uuid_generate_v4(), name_pl, name_en, slugify(name_pl) || '-' || substring(uuid_generate_v4()::text, 1, 4), description_pl, description_en, price, now() at time zone 'utc', now() at time zone 'utc'
   from menu;
 
 commit;

@@ -10,6 +10,8 @@ import Config
 config :unter_eats,
   ecto_repos: [UnterEats.Repo]
 
+config :unter_eats, UnterEats.Repo, migration_primary_key: [name: :id, type: :binary_id]
+
 # Configures the endpoint
 config :unter_eats, UnterEatsWeb.Endpoint,
   url: [host: "localhost"],

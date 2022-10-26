@@ -1,5 +1,5 @@
 defmodule UnterEats.Categories.Category do
-  use Ecto.Schema
+  use UnterEats.Schema
   import Ecto.Changeset
 
   schema "categories" do
