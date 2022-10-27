@@ -7,6 +7,7 @@ defmodule UnterEatsWeb.Api.Schema do
 
   query do
     import_fields(:product_queries)
+    import_fields(:category_queries)
   end
 
   alias UnterEatsWeb.Api.Middleware.TransformErrors
