@@ -22,5 +22,9 @@ defmodule UnterEatsWeb.Api.Types.Categories do
       arg(:id, non_null(:id))
       resolve(&CategoryResolvers.get_category/2)
     end
+
+    field :categories, non_null(list_of(non_null(:category))) do
+      resolve(&CategoryResolvers.list_categories/2)
+    end
   end
 end

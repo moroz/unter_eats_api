@@ -12,6 +12,10 @@ defmodule UnterEats.Categories do
     Repo.all(Category)
   end
 
+  def preload_assocs(category) do
+    Repo.preload(category, :products)
+  end
+
   def get_category!(id), do: Repo.get!(Category, id)
 
   def get_category_by_slug_or_id!(id) do
