@@ -49,7 +49,8 @@ defmodule UnterEats.MixProject do
       {:shorter_maps, "~> 2.2"},
       {:ex_machina, "~> 2.7"},
       {:scrivener_ecto, "~> 2.7"},
-      {:cors_plug, "~> 3.0"}
+      {:cors_plug, "~> 3.0"},
+      {:appsignal_phoenix, "~> 2.0"}
     ]
   end
 
