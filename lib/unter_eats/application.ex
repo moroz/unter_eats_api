@@ -5,20 +5,23 @@ defmodule UnterEats.Application do
 
   use Application
 
+  @migrator if Mix.env() == :prod, do: [UnterEats.Migrator], else: []
+
   @impl true
   def start(_type, _args) do
-    children = [
-      # Start the Ecto repository
-      UnterEats.Repo,
-      # Start the Telemetry supervisor
-      UnterEatsWeb.Telemetry,
-      # Start the PubSub system
-      {Phoenix.PubSub, name: UnterEats.PubSub},
-      # Start the Endpoint (http/https)
-      UnterEatsWeb.Endpoint
-      # Start a worker by calling: UnterEats.Worker.start_link(arg)
-      # {UnterEats.Worker, arg}
-    ]
+    children =
+      [
+        # Start the Ecto repository
+        UnterEats.Repo,
+        # Start the Telemetry supervisor
+        UnterEatsWeb.Telemetry,
+        # Start the PubSub system
+        {Phoenix.PubSub, name: UnterEats.PubSub},
+        # Start the Endpoint (http/https)
+        UnterEatsWeb.Endpoint
+        # Start a worker by calling: UnterEats.Worker.start_link(arg)
+        # {UnterEats.Worker, arg}
+      ] ++ @migrator
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
