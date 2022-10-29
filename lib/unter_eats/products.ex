@@ -18,6 +18,12 @@ defmodule UnterEats.Products do
     Repo.get_by(Product, slug: slug)
   end
 
+  def get_products_by_ids(ids) when is_list(ids) do
+    Product
+    |> where([p], p.id in ^ids)
+    |> Repo.all()
+  end
+
   def create_product(attrs \\ %{}) do
     %Product{}
     |> Product.changeset(attrs)

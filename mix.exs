@@ -48,7 +48,8 @@ defmodule UnterEats.MixProject do
       {:graphql_tools, github: "moroz/graphql_tools"},
       {:shorter_maps, "~> 2.2"},
       {:ex_machina, "~> 2.7"},
-      {:scrivener_ecto, "~> 2.7"}
+      {:scrivener_ecto, "~> 2.7"},
+      {:cors_plug, "~> 3.0"}
     ]
   end
 

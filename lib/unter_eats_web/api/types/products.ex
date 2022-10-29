@@ -26,5 +26,10 @@ defmodule UnterEatsWeb.Api.Types.Products do
       arg(:slug, :string)
       resolve(&ProductResolvers.get_product/2)
     end
+
+    field :products, non_null(list_of(non_null(:product))) do
+      arg(:ids, non_null(list_of(non_null(:id))))
+      resolve(&ProductResolvers.list_products/2)
+    end
   end
 end
