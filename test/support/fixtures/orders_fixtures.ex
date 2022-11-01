@@ -20,4 +20,18 @@ defmodule UnterEats.OrdersFixtures do
 
     order
   end
+
+  @doc """
+  Generate a line_item.
+  """
+  def line_item_fixture(attrs \\ %{}) do
+    {:ok, line_item} =
+      attrs
+      |> Enum.into(%{
+        quantity: 42
+      })
+      |> UnterEats.Orders.create_line_item()
+
+    line_item
+  end
 end
