@@ -20,7 +20,9 @@ if System.get_env("PHX_SERVER") do
   config :unter_eats, UnterEatsWeb.Endpoint, server: true
 end
 
-config :stripity_stripe, api_key: System.get_env("STRIPE_SECRET")
+if config_env() != :test do
+  config :stripity_stripe, api_key: System.get_env("STRIPE_SECRET")
+end
 
 if config_env() == :prod do
   database_url =

@@ -28,3 +28,7 @@ config :logger, level: :warn
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :stripity_stripe,
+  api_key: "sk_test_thisisaboguskey",
+  api_base_url: "http://localhost:12111/v1/"

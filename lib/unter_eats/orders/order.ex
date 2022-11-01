@@ -10,6 +10,7 @@ defmodule UnterEats.Orders.Order do
     field :grand_total, :decimal
     field :shipping_address, :string
     has_many :line_items, LineItem
+    has_many :payment_intents, UnterEats.Payments.PaymentIntent
 
     timestamps()
   end

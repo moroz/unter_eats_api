@@ -3,13 +3,11 @@ defmodule UnterEatsWeb.Api.Types.Payments do
   alias UnterEatsWeb.Api.Resolvers.PaymentResolvers
 
   object :payment_intent do
-    field :client_secret, non_null(:string)
-  end
+    field :order_id, non_null(:id)
+    field :stripe_id, non_null(:string)
 
-  object :payment_mutations do
-    field :create_payment_intent, :payment_intent do
-      arg(:amount, non_null(:integer))
-      resolve(&PaymentResolvers.create_payment_intent/2)
+    field :client_secret, non_null(:string) do
+      resolve(&PaymentResolvers.get_client_secret/3)
     end
   end
 end

@@ -1,10 +1,11 @@
 defmodule UnterEats.Payments.PaymentIntent do
-  use Ecto.Schema
+  use UnterEats.Schema
   import Ecto.Changeset
 
   schema "payment_intents" do
     field :stripe_id, :string
-    field :order_id, :id
+    belongs_to :order, UnterEats.Orders.Order
+    field :client_secret, :string, virtual: true
 
     timestamps()
   end
@@ -12,7 +13,7 @@ defmodule UnterEats.Payments.PaymentIntent do
   @doc false
   def changeset(payment_intent, attrs) do
     payment_intent
-    |> cast(attrs, [:stripe_id])
-    |> validate_required([:stripe_id])
+    |> cast(attrs, [:stripe_id, :order_id, :client_secret])
+    |> validate_required([:stripe_id, :order_id])
   end
 end

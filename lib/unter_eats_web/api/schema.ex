@@ -5,6 +5,8 @@ defmodule UnterEatsWeb.Api.Schema do
   import_types(UnterEatsWeb.Api.Types.Categories)
   import_types(UnterEatsWeb.Api.Types.Products)
   import_types(UnterEatsWeb.Api.Types.Payments)
+  import_types(UnterEatsWeb.Api.Types.Orders)
+  import_types(GraphQLTools.ErrorTypes)
 
   query do
     import_fields(:product_queries)
@@ -12,7 +14,7 @@ defmodule UnterEatsWeb.Api.Schema do
   end
 
   mutation do
-    import_fields(:payment_mutations)
+    import_fields(:order_mutations)
   end
 
   alias UnterEatsWeb.Api.Middleware.TransformErrors
@@ -25,10 +27,19 @@ defmodule UnterEatsWeb.Api.Schema do
   #   middleware
   # end
 
-  @public_mutations [:sign_in, :sign_out, :sign_up, :create_payment_intent]
+  @public_mutations [:sign_in, :sign_out, :sign_up]
   def middleware(middleware, %{identifier: id}, %{identifier: :mutation})
       when id in @public_mutations do
     middleware
+  end
+
+  @public_with_transform [:create_order]
+  def middleware(middleware, %{identifier: id}, %Absinthe.Type.Object{identifier: :mutation})
+      when id in @public_with_transform do
+    List.flatten([
+      ResolutionWithErrorBoundary.replace_resolution_middleware(middleware),
+      TransformErrors
+    ])
   end
 
   def middleware(middleware, _field, %Absinthe.Type.Object{identifier: :query}) do

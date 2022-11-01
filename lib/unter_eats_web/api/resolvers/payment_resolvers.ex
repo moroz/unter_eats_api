@@ -1,11 +1,17 @@
 defmodule UnterEatsWeb.Api.Resolvers.PaymentResolvers do
-  import ShorterMaps
+  alias UnterEats.Payments.PaymentIntent
 
-  def create_payment_intent(~M{amount}, _) do
-    Stripe.PaymentIntent.create(%{
-      amount: amount,
-      currency: "PLN",
-      automatic_payment_methods: %{enabled: true}
-    })
+  def get_client_secret(%PaymentIntent{client_secret: secret}, _, _) when is_binary(secret) do
+    {:ok, secret}
+  end
+
+  def get_client_secret(%PaymentIntent{} = pi, _, _) do
+    case Stripe.PaymentIntent.retrieve(pi.stripe_id, %{}) do
+      {:ok, %Stripe.PaymentIntent{} = pi} ->
+        {:ok, pi.client_secret}
+
+      _ ->
+        {:ok, nil}
+    end
   end
 end
