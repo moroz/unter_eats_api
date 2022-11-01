@@ -24,6 +24,8 @@ defmodule UnterEats.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import UnterEats.DataCase
+      import UnterEats.Factory
+      import ShorterMaps
     end
   end
 

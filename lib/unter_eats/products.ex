@@ -24,6 +24,14 @@ defmodule UnterEats.Products do
     |> Repo.all()
   end
 
+  def get_price_mappings(product_ids) do
+    Product
+    |> where([p], p.id in ^product_ids)
+    |> select([p], {p.id, p.price})
+    |> Repo.all()
+    |> Map.new()
+  end
+
   def create_product(attrs \\ %{}) do
     %Product{}
     |> Product.changeset(attrs)

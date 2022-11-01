@@ -1,5 +1,5 @@
 defmodule UnterEats.Factory do
-  use ExMachina.Ecto, repo: Invoicer.Repo
+  use ExMachina.Ecto, repo: UnterEats.Repo
 
   def random_email do
     rand =
@@ -17,5 +17,9 @@ defmodule UnterEats.Factory do
       email: random_email(),
       password_hash: @password_hash
     }
+  end
+
+  def product_factory do
+    %UnterEats.Products.Product{}
   end
 end

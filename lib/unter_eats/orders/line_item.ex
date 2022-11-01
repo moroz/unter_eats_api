@@ -4,8 +4,8 @@ defmodule UnterEats.Orders.LineItem do
 
   schema "line_items" do
     field :quantity, :integer
-    field :order_id, :id
-    field :product_id, :id
+    belongs_to :product, UnterEats.Products.Product
+    belongs_to :order, UnterEats.Orders.Order
 
     timestamps()
   end
@@ -13,7 +13,7 @@ defmodule UnterEats.Orders.LineItem do
   @doc false
   def changeset(line_item, attrs) do
     line_item
-    |> cast(attrs, [:quantity])
-    |> validate_required([:quantity])
+    |> cast(attrs, [:quantity, :product_id, :order_id])
+    |> validate_required([:quantity, :product_id])
   end
 end
