@@ -2,9 +2,9 @@ defmodule UnterEatsWeb.Api.PaymentMutationsTest do
   use UnterEatsWeb.GraphQLCase
 
   @mutation """
-  mutation CreatePaymentIntent($amount: Int!) {
+  query CreatePaymentIntent($amount: Int!) {
     createPaymentIntent(amount: $amount) {
-      data
+      token
     }
   }
   """

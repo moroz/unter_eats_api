@@ -4,10 +4,15 @@ defmodule UnterEatsWeb.Api.Schema do
   import_types(Absinthe.Type.Custom)
   import_types(UnterEatsWeb.Api.Types.Categories)
   import_types(UnterEatsWeb.Api.Types.Products)
+  import_types(UnterEatsWeb.Api.Types.Payments)
 
   query do
     import_fields(:product_queries)
     import_fields(:category_queries)
+  end
+
+  mutation do
+    import_fields(:payment_mutations)
   end
 
   alias UnterEatsWeb.Api.Middleware.TransformErrors
@@ -20,7 +25,7 @@ defmodule UnterEatsWeb.Api.Schema do
   #   middleware
   # end
 
-  @public_mutations [:sign_in, :sign_out, :sign_up]
+  @public_mutations [:sign_in, :sign_out, :sign_up, :create_payment_intent]
   def middleware(middleware, %{identifier: id}, %{identifier: :mutation})
       when id in @public_mutations do
     middleware

@@ -51,7 +51,8 @@ defmodule UnterEats.MixProject do
       {:scrivener_ecto, "~> 2.7"},
       {:cors_plug, "~> 3.0"},
       {:appsignal_phoenix, "~> 2.0"},
-      {:stripity_stripe, "~> 2.0"}
+      {:stripity_stripe, "~> 2.0"},
+      {:bcrypt_elixir, "~> 3.0"}
     ]
   end
 
