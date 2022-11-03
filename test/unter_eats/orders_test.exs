@@ -4,8 +4,6 @@ defmodule UnterEats.OrdersTest do
   alias UnterEats.Orders
 
   describe "orders" do
-    alias UnterEats.Orders.Order
-
     setup do
       lamburchili = insert(:product, name_pl: "Lamburchili", price: "21", slug: "lamburchili")
       dal = insert(:product, name_pl: "Dal tarkari", price: "37", slug: "dal")
@@ -19,6 +17,7 @@ defmodule UnterEats.OrdersTest do
         last_name: "Nowak",
         delivery_type: :delivery,
         email: "nowak@poczta.onet.pl",
+        phone_no: "+48555123456",
         shipping_address: "ul. Nowogrodzka 84/86",
         line_items: [
           %{product_id: lamburchili.id, quantity: 3},

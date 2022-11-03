@@ -16,6 +16,7 @@ defmodule UnterEatsWeb.Api.Types.Orders do
     field :shipping_address, :string
     field :line_items, non_null(list_of(non_null(:line_item)))
     field :first_name, non_null(:string)
+    field :phone_no, non_null(:string)
     field :last_name, :string
     field :delivery_type, non_null(:delivery_type)
 
@@ -28,7 +29,9 @@ defmodule UnterEatsWeb.Api.Types.Orders do
     field :email, non_null(:string)
     field :first_name, non_null(:string)
     field :last_name, :string
+    field :remarks, :string
     field :delivery_type, non_null(:delivery_type)
+    field :phone_no, non_null(:string)
     field :shipping_address, non_null(:string)
     field :line_items, non_null(list_of(non_null(:line_item_params)))
   end

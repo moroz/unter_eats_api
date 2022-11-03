@@ -38,6 +38,7 @@ defmodule UnterEatsWeb.Api.OrderMutationsTest do
         last_name: "Nowak",
         delivery_type: :delivery,
         email: "nowak@poczta.onet.pl",
+        phone_no: "+48555123456",
         shipping_address: "ul. Nowogrodzka 84/86",
         line_items: [
           %{product_id: lamburchili.id, quantity: 3},

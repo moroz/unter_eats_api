@@ -9,6 +9,7 @@ defmodule UnterEats.Orders.Order do
 
   schema "orders" do
     field :email, :string
+    field :phone_no, :string
     field :first_name, :string
     field :last_name, :string
     field :remarks, :string
@@ -21,7 +22,7 @@ defmodule UnterEats.Orders.Order do
     timestamps()
   end
 
-  @required ~w(first_name email delivery_type)a
+  @required ~w(first_name email delivery_type phone_no)a
   @cast @required ++ ~w(last_name remarks shipping_address)a
 
   @doc false
