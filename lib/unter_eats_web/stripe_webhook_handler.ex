@@ -3,6 +3,7 @@ defmodule UnterEatsWeb.StripeWebhookHandler do
 
   import Logger
   import ShorterMaps
+  alias UnterEats.Orders
 
   def handle_event(%Stripe.Event{type: "payment_intent.succeeded"} = event) do
     handle_payment_intent(event.data.object)
@@ -17,7 +18,8 @@ defmodule UnterEatsWeb.StripeWebhookHandler do
          id: id
        }) do
     info("Received payment notification for PaymentIntent #{id}, order id #{order_id}")
-    :ok
+    order = Orders.get_order!(order_id)
+    Orders.mark_order_as_paid(order)
   end
 
   defp handle_payment_intent(%Stripe.PaymentIntent{id: id}) do

@@ -16,6 +16,7 @@ defmodule UnterEats.Orders.Order do
     field :delivery_type, DeliveryType
     field :grand_total, :decimal
     field :shipping_address, :string
+    field :paid_at, :utc_datetime
     has_many :line_items, LineItem
     has_many :payment_intents, UnterEats.Payments.PaymentIntent
 
@@ -23,7 +24,7 @@ defmodule UnterEats.Orders.Order do
   end
 
   @required ~w(first_name email delivery_type phone_no)a
-  @cast @required ++ ~w(last_name remarks shipping_address)a
+  @cast @required ++ ~w(last_name remarks shipping_address paid_at)a
 
   @doc false
   def changeset(order, attrs) do

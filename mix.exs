@@ -54,7 +54,8 @@ defmodule UnterEats.MixProject do
       {:stripity_stripe, "~> 2.0"},
       {:bcrypt_elixir, "~> 3.0"},
       {:slugify, "~> 1.3"},
-      {:ecto_enum, "~> 1.4"}
+      {:ecto_enum, "~> 1.4"},
+      {:timex, "~> 3.7"}
     ]
   end
 
