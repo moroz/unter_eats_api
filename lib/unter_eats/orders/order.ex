@@ -3,10 +3,16 @@ defmodule UnterEats.Orders.Order do
   import Ecto.Changeset
   alias UnterEats.Products
   alias UnterEats.Orders.LineItem
+  import EctoEnum
+
+  defenum(DeliveryType, :delivery_type, [:delivery, :pickup])
 
   schema "orders" do
     field :email, :string
-    field :full_name, :string
+    field :first_name, :string
+    field :last_name, :string
+    field :remarks, :string
+    field :delivery_type, DeliveryType
     field :grand_total, :decimal
     field :shipping_address, :string
     has_many :line_items, LineItem
@@ -15,11 +21,14 @@ defmodule UnterEats.Orders.Order do
     timestamps()
   end
 
+  @required ~w(first_name email delivery_type)a
+  @cast @required ++ ~w(last_name remarks shipping_address)a
+
   @doc false
   def changeset(order, attrs) do
     order
-    |> cast(attrs, [:full_name, :email, :shipping_address])
-    |> validate_required([:full_name, :email, :shipping_address])
+    |> cast(attrs, @cast)
+    |> validate_required(@required)
     |> cast_assoc(:line_items, with: &LineItem.changeset/2)
     |> set_grand_total()
   end

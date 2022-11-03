@@ -15,7 +15,9 @@ defmodule UnterEats.OrdersTest do
 
     test "creates order with valid params", ~M{lamburchili, dal} do
       params = %{
-        full_name: "Jan Nowak",
+        first_name: "Jan",
+        last_name: "Nowak",
+        delivery_type: :delivery,
         email: "nowak@poczta.onet.pl",
         shipping_address: "ul. Nowogrodzka 84/86",
         line_items: [

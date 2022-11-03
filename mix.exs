@@ -53,7 +53,8 @@ defmodule UnterEats.MixProject do
       {:appsignal_phoenix, "~> 2.0"},
       {:stripity_stripe, "~> 2.0"},
       {:bcrypt_elixir, "~> 3.0"},
-      {:slugify, "~> 1.3"}
+      {:slugify, "~> 1.3"},
+      {:ecto_enum, "~> 1.4"}
     ]
   end
 

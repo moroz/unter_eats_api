@@ -34,7 +34,9 @@ defmodule UnterEatsWeb.Api.OrderMutationsTest do
   describe "createOrder mutation" do
     test "creates order with correct total and a payment intent", ~M{lamburchili, dal} do
       params = %{
-        full_name: "Jan Nowak",
+        first_name: "Jan",
+        last_name: "Nowak",
+        delivery_type: :delivery,
         email: "nowak@poczta.onet.pl",
         shipping_address: "ul. Nowogrodzka 84/86",
         line_items: [
@@ -49,7 +51,8 @@ defmodule UnterEatsWeb.Api.OrderMutationsTest do
       assert order.grand_total == Decimal.new(137)
       assert order.email == params.email
       assert order.shipping_address == params.shipping_address
-      assert order.full_name == params.full_name
+      assert order.first_name == params.first_name
+      assert order.last_name == params.last_name
 
       pi = actual["paymentIntent"]
       assert "pi_" <> _ = pi["stripeId"]

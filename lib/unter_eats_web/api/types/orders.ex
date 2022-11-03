@@ -4,16 +4,33 @@ defmodule UnterEatsWeb.Api.Types.Orders do
   import GraphQLTools.SchemaHelpers
   alias UnterEatsWeb.Api.Resolvers.OrderResolvers
 
+  enum :delivery_type do
+    value(:delivery)
+    value(:pickup)
+  end
+
   object :order do
     field :id, non_null(:id)
     field :email, non_null(:string)
     field :grand_total, non_null(:decimal)
     field :shipping_address, :string
     field :line_items, non_null(list_of(non_null(:line_item)))
+    field :first_name, non_null(:string)
+    field :last_name, :string
+    field :delivery_type, non_null(:delivery_type)
 
     field :payment_intent, :payment_intent do
       resolve(&OrderResolvers.resolve_payment_intent/3)
     end
+  end
+
+  input_object :order_params do
+    field :email, non_null(:string)
+    field :first_name, non_null(:string)
+    field :last_name, :string
+    field :delivery_type, non_null(:delivery_type)
+    field :shipping_address, non_null(:string)
+    field :line_items, non_null(list_of(non_null(:line_item_params)))
   end
 
   object :line_item do
@@ -31,20 +48,13 @@ defmodule UnterEatsWeb.Api.Types.Orders do
     end
   end
 
-  object :order_mutation_result do
-    mutation_result_fields(:order)
-  end
-
   input_object :line_item_params do
     field :product_id, non_null(:id)
     field :quantity, non_null(:integer)
   end
 
-  input_object :order_params do
-    field :email, non_null(:string)
-    field :full_name, non_null(:string)
-    field :shipping_address, non_null(:string)
-    field :line_items, non_null(list_of(non_null(:line_item_params)))
+  object :order_mutation_result do
+    mutation_result_fields(:order)
   end
 
   object :order_mutations do
