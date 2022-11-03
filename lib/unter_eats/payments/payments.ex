@@ -41,7 +41,10 @@ defmodule UnterEats.Payments do
     Stripe.PaymentIntent.create(%{
       currency: "PLN",
       amount: amount,
-      payment_method_types: ["blik", "card", "p24"]
+      payment_method_types: ["blik", "card", "p24"],
+      metadata: %{
+        order_id: order.id
+      }
     })
   end
 end
