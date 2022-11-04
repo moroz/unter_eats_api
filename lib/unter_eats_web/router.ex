@@ -3,12 +3,16 @@ defmodule UnterEatsWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
   end
 
   scope "/api" do
     pipe_through :api
 
-    post "/", Absinthe.Plug, schema: UnterEatsWeb.Api.Schema
+    post "/", Absinthe.Plug,
+      schema: UnterEatsWeb.Api.Schema,
+      before_send: {GraphQLTools.SessionHelpers, :before_send}
+
     get "/", Absinthe.Plug.GraphiQL, schema: UnterEatsWeb.Api.Schema, interface: :playground
   end
 

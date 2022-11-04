@@ -64,6 +64,7 @@ defmodule UnterEatsWeb.Api.Types.Orders do
     field :create_order, non_null(:order_mutation_result) do
       arg(:params, :order_params)
       resolve(&OrderResolvers.create_order/2)
+      middleware(UnterEatsWeb.Api.Middleware.StoreOrderIdInSession)
     end
   end
 end
