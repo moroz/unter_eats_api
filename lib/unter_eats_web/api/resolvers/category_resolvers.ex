@@ -7,8 +7,6 @@ defmodule UnterEatsWeb.Api.Resolvers.CategoryResolvers do
   end
 
   def list_categories(_, _) do
-    {:ok,
-     Categories.list_categories()
-     |> Categories.preload_assocs()}
+    {:ok, Categories.list_categories()}
   end
 end
