@@ -17,6 +17,7 @@ defmodule UnterEatsWeb.Api.Schema do
 
   mutation do
     import_fields(:order_mutations)
+    import_fields(:user_mutations)
   end
 
   alias UnterEatsWeb.Api.Middleware.TransformErrors
