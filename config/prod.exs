@@ -50,3 +50,5 @@ config :logger, level: :debug
 # Check `Plug.SSL` for all available options in `force_ssl`.
 
 config :tzdata, :autoupdate, :disabled
+
+config :cors_plug, origin: ["https://panel.artesanokoszalin.pl"]
