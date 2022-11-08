@@ -8,3 +8,5 @@ alias UnterEats.Categories.Category
 alias UnterEats.Orders
 alias UnterEats.Orders.Order
 alias UnterEats.Orders.LineItem
+alias UnterEats.Users
+alias UnterEats.Users.User

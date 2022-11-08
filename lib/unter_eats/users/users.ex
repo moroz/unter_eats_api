@@ -11,4 +11,10 @@ defmodule UnterEats.Users do
     |> Repo.get_by(email: email)
     |> Bcrypt.check_pass(password, hide_user: true)
   end
+
+  def create_user(attrs) do
+    %User{}
+    |> User.registration_changeset(attrs)
+    |> Repo.insert()
+  end
 end
