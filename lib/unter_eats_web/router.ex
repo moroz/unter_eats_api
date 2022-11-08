@@ -4,6 +4,7 @@ defmodule UnterEatsWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
     plug :fetch_session
+    plug UnterEatsWeb.Plug.FetchUser
   end
 
   scope "/api" do
