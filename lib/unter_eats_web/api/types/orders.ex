@@ -1,6 +1,7 @@
 defmodule UnterEatsWeb.Api.Types.Orders do
   use Absinthe.Schema.Notation
   import UnterEatsWeb.Api.Middleware.LazyPreload
+  alias UnterEatsWeb.Api.Middleware.RestrictAccess
   import GraphQLTools.SchemaHelpers
   alias UnterEatsWeb.Api.Resolvers.OrderResolvers
 
@@ -14,7 +15,11 @@ defmodule UnterEatsWeb.Api.Types.Orders do
     field :email, non_null(:string)
     field :grand_total, non_null(:decimal)
     field :shipping_address, :string
-    field :line_items, non_null(list_of(non_null(:line_item)))
+
+    field :line_items, non_null(list_of(non_null(:line_item))) do
+      lazy_preload()
+    end
+
     field :first_name, non_null(:string)
     field :phone_no, non_null(:string)
     field :last_name, :string
@@ -60,11 +65,28 @@ defmodule UnterEatsWeb.Api.Types.Orders do
     mutation_result_fields(:order)
   end
 
+  object :order_page do
+    pagination_fields(:order)
+  end
+
+  input_object :order_pagination_params do
+    standard_pagination_params()
+  end
+
   object :order_mutations do
     field :create_order, non_null(:order_mutation_result) do
       arg(:params, :order_params)
       resolve(&OrderResolvers.create_order/2)
       middleware(UnterEatsWeb.Api.Middleware.StoreOrderIdInSession)
+    end
+  end
+
+  object :order_queries do
+    field :paginate_orders, non_null(:order_page) do
+      arg(:params, non_null(:order_pagination_params))
+      middleware(RestrictAccess)
+      resolve(&OrderResolvers.paginate_orders/2)
+      middleware(GraphQLTools.FormatPage)
     end
   end
 end

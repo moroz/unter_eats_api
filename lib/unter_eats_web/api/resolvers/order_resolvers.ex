@@ -10,4 +10,8 @@ defmodule UnterEatsWeb.Api.Resolvers.OrderResolvers do
   def resolve_payment_intent(order, _, _) do
     {:ok, Payments.get_or_create_order_payment_intent(order)}
   end
+
+  def paginate_orders(~M{params}, _) do
+    {:ok, Orders.filter_and_paginate_orders(params)}
+  end
 end

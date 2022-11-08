@@ -8,11 +8,13 @@ defmodule UnterEatsWeb.Api.Schema do
   import_types(UnterEatsWeb.Api.Types.Orders)
   import_types(UnterEatsWeb.Api.Types.Users)
   import_types(GraphQLTools.ErrorTypes)
+  import_types(GraphQLTools.PaginationTypes)
 
   query do
     import_fields(:product_queries)
     import_fields(:category_queries)
     import_fields(:user_queries)
+    import_fields(:order_queries)
   end
 
   mutation do

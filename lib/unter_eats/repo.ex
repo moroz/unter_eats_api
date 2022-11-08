@@ -3,6 +3,8 @@ defmodule UnterEats.Repo do
     otp_app: :unter_eats,
     adapter: Ecto.Adapters.Postgres
 
+  use Scrivener, page_size: 20
+
   import Ecto.Query
 
   def get_by_slug_or_id!(queryable, slug_or_id) when is_binary(slug_or_id) do

@@ -12,6 +12,20 @@ defmodule UnterEats.Orders do
     Repo.all(Order)
   end
 
+  def filter_and_paginate_orders(params \\ %{}) do
+    base_query()
+    |> filter_by_params(params)
+    |> Repo.paginate(params)
+  end
+
+  defp base_query, do: Order
+
+  defp filter_by_params(query, params) do
+    Enum.reduce(params, query, &do_filter_by_params/2)
+  end
+
+  defp do_filter_by_params(_, query), do: query
+
   def get_order!(id), do: Repo.get!(Order, id)
 
   def create_order(attrs \\ %{}) do
