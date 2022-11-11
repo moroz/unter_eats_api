@@ -12,6 +12,23 @@ defmodule UnterEats.Products do
     Repo.all(Product)
   end
 
+  def base_query do
+    Product
+    |> order_by(:name_pl)
+  end
+
+  def filter_and_paginate_products(params \\ %{}) do
+    base_query()
+    |> filter_by_params(params)
+    |> Repo.paginate(params)
+  end
+
+  defp filter_by_params(query, params) do
+    Enum.reduce(params, query, &do_filter_by_params/2)
+  end
+
+  defp do_filter_by_params(_, query), do: query
+
   def get_product!(id), do: Repo.get!(Product, id)
 
   def get_product_by_slug(slug) when is_binary(slug) do

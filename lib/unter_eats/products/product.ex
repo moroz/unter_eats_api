@@ -1,6 +1,7 @@
 defmodule UnterEats.Products.Product do
   use UnterEats.Schema
   import Ecto.Changeset
+  alias UnterEats.SlugHelpers
 
   schema "products" do
     field :description_en, :string
@@ -21,21 +22,7 @@ defmodule UnterEats.Products.Product do
     product
     |> cast(attrs, [:name_pl, :name_en, :slug, :price, :description_pl, :description_en])
     |> validate_required([:name_pl, :price])
-    |> maybe_set_slug()
+    |> SlugHelpers.maybe_set_slug()
     |> validate_required([:slug])
   end
-
-  defp maybe_set_slug(%Ecto.Changeset{valid?: true} = changeset) do
-    case get_field(changeset, :slug) do
-      nil ->
-        name_pl = get_field(changeset, :name_pl)
-        slug = Slug.slugify(name_pl)
-        put_change(changeset, :slug, slug)
-
-      _ ->
-        changeset
-    end
-  end
-
-  defp maybe_set_slug(changeset), do: changeset
 end

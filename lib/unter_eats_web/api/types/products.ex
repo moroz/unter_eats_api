@@ -3,6 +3,7 @@ defmodule UnterEatsWeb.Api.Types.Products do
   import GraphQLTools.SchemaHelpers
   alias UnterEatsWeb.Api.Resolvers.ProductResolvers
   import UnterEatsWeb.Api.Middleware.LazyPreload
+  alias UnterEatsWeb.Api.Middleware.RestrictAccess
 
   object :product do
     field :id, non_null(:id)
@@ -20,6 +21,14 @@ defmodule UnterEatsWeb.Api.Types.Products do
     timestamps()
   end
 
+  input_object :product_pagination_params do
+    standard_pagination_params()
+  end
+
+  object :product_page do
+    pagination_fields(:product)
+  end
+
   object :product_queries do
     field :product, :product do
       arg(:id, :id)
@@ -30,6 +39,13 @@ defmodule UnterEatsWeb.Api.Types.Products do
     field :products, non_null(list_of(non_null(:product))) do
       arg(:ids, non_null(list_of(non_null(:id))))
       resolve(&ProductResolvers.list_products/2)
+    end
+
+    field :paginate_products, non_null(:product_page) do
+      arg(:params, non_null(:product_pagination_params))
+      middleware(RestrictAccess)
+      resolve(&ProductResolvers.paginate_products/2)
+      middleware(GraphQLTools.FormatPage)
     end
   end
 end

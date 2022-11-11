@@ -20,6 +20,10 @@ defmodule UnterEats.Factory do
   end
 
   def product_factory do
-    %UnterEats.Products.Product{}
+    %UnterEats.Products.Product{
+      name_pl: "Dal tarkari",
+      slug: UnterEats.SlugHelpers.slugify("Dal tarkari"),
+      price: 42
+    }
   end
 end
