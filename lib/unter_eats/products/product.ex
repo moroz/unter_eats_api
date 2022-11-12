@@ -22,6 +22,7 @@ defmodule UnterEats.Products.Product do
     product
     |> cast(attrs, [:name_pl, :name_en, :slug, :price, :description_pl, :description_en])
     |> validate_required([:name_pl, :price])
+    |> validate_number(:price, greater_than_or_equal_to: 0)
     |> SlugHelpers.maybe_set_slug()
     |> validate_required([:slug])
   end

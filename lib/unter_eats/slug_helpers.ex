@@ -8,7 +8,7 @@ defmodule UnterEats.SlugHelpers do
   def random_hex(length \\ 4) when is_integer(length) and rem(length, 2) == 0 do
     length
     |> Kernel./(2)
-    |> round()
+    |> floor()
     |> :crypto.strong_rand_bytes()
     |> Base.encode16(case: :lower)
   end
@@ -18,6 +18,9 @@ defmodule UnterEats.SlugHelpers do
          name when is_binary(name) and name != "" <- get_field(changeset, base_field) do
       slug = slugify(name)
       put_change(changeset, :slug, slug)
+    else
+      _ ->
+        changeset
     end
   end
 end

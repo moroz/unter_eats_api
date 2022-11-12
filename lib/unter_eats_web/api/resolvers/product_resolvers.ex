@@ -13,4 +13,13 @@ defmodule UnterEatsWeb.Api.Resolvers.ProductResolvers do
   def paginate_products(~M{params}, _) do
     {:ok, Products.filter_and_paginate_products(params)}
   end
+
+  def create_product(~M{params}, _) do
+    Products.create_product(params)
+  end
+
+  def update_product(~M{id, params}, _) do
+    product = Products.get_product!(id)
+    Products.update_product(product, params)
+  end
 end

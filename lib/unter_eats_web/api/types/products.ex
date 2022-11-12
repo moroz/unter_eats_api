@@ -29,6 +29,43 @@ defmodule UnterEatsWeb.Api.Types.Products do
     pagination_fields(:product)
   end
 
+  input_object :product_params do
+    field :name_pl, non_null(:string)
+    field :name_en, :string
+    field :description_pl, :string
+    field :description_en, :string
+    field :price, non_null(:decimal)
+    field :slug, :string
+  end
+
+  input_object :update_product_params do
+    field :name_pl, :string
+    field :name_en, :string
+    field :description_pl, :string
+    field :description_en, :string
+    field :price, :decimal
+    field :slug, :string
+  end
+
+  object :product_mutation_result do
+    mutation_result_fields(:product)
+  end
+
+  object :product_mutations do
+    field :create_product, non_null(:product_mutation_result) do
+      arg(:params, non_null(:product_params))
+      middleware(RestrictAccess)
+      resolve(&ProductResolvers.create_product/2)
+    end
+
+    field :update_product, non_null(:product_mutation_result) do
+      arg(:id, non_null(:id))
+      arg(:params, non_null(:update_product_params))
+      middleware(RestrictAccess)
+      resolve(&ProductResolvers.update_product/2)
+    end
+  end
+
   object :product_queries do
     field :product, :product do
       arg(:id, :id)
