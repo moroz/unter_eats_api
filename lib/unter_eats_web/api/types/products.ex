@@ -29,7 +29,7 @@ defmodule UnterEatsWeb.Api.Types.Products do
     pagination_fields(:product)
   end
 
-  input_object :product_params do
+  input_object :create_product_params do
     field :name_pl, non_null(:string)
     field :name_en, :string
     field :description_pl, :string
@@ -53,7 +53,7 @@ defmodule UnterEatsWeb.Api.Types.Products do
 
   object :product_mutations do
     field :create_product, non_null(:product_mutation_result) do
-      arg(:params, non_null(:product_params))
+      arg(:params, non_null(:create_product_params))
       middleware(RestrictAccess)
       resolve(&ProductResolvers.create_product/2)
     end
@@ -63,6 +63,12 @@ defmodule UnterEatsWeb.Api.Types.Products do
       arg(:params, non_null(:update_product_params))
       middleware(RestrictAccess)
       resolve(&ProductResolvers.update_product/2)
+    end
+
+    field :delete_product, non_null(:product_mutation_result) do
+      arg(:id, non_null(:id))
+      middleware(RestrictAccess)
+      resolve(&ProductResolvers.delete_product/2)
     end
   end
 

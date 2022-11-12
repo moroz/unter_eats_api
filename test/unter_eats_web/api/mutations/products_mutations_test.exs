@@ -7,7 +7,7 @@ defmodule UnterEatsWeb.Api.Mutations.ProductsMutationsTest do
   end
 
   @mutation """
-  mutation CreateProduct($params: ProductParams!){
+  mutation CreateProduct($params: CreateProductParams!){
     createProduct(params: $params) {
       success
       data {

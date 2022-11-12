@@ -22,4 +22,9 @@ defmodule UnterEatsWeb.Api.Resolvers.ProductResolvers do
     product = Products.get_product!(id)
     Products.update_product(product, params)
   end
+
+  def delete_product(~M{id}, _) do
+    product = Products.get_product!(id)
+    Products.delete_product(product)
+  end
 end
