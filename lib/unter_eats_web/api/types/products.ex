@@ -14,7 +14,7 @@ defmodule UnterEatsWeb.Api.Types.Products do
     field :price, :decimal
     field :slug, non_null(:string)
 
-    field :category, non_null(:category) do
+    field :categories, non_null(list_of(non_null(:category))) do
       lazy_preload()
     end
 
