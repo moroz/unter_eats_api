@@ -8,6 +8,7 @@ defmodule UnterEatsWeb.Api.Schema do
   import_types(UnterEatsWeb.Api.Types.Payments)
   import_types(UnterEatsWeb.Api.Types.Orders)
   import_types(UnterEatsWeb.Api.Types.Users)
+  import_types(UnterEatsWeb.Api.Types.Images)
   import_types(GraphQLTools.ErrorTypes)
   import_types(GraphQLTools.PaginationTypes)
 
@@ -22,6 +23,7 @@ defmodule UnterEatsWeb.Api.Schema do
     import_fields(:order_mutations)
     import_fields(:user_mutations)
     import_fields(:product_mutations)
+    import_fields(:image_mutations)
   end
 
   alias UnterEatsWeb.Api.Middleware.TransformErrors

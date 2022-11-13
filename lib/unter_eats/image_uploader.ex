@@ -1,4 +1,4 @@
-defmodule UnterEats.Image do
+defmodule UnterEats.ImageUploader do
   use Waffle.Definition
 
   @versions [:original, :thumb, :thumb_retina, :thumb_mobile, :thumb_mobile_retina]
@@ -59,9 +59,8 @@ defmodule UnterEats.Image do
     version
   end
 
-  def storage_dir(_version, {_file, scope}) do
-    uuid = scope.uuid
-    prefix = uuid |> to_string |> String.slice(0, 2)
-    "images/#{prefix}/#{uuid}"
+  def storage_dir(_version, {_file, %{id: id}}) do
+    prefix = String.slice(id, 0, 2)
+    "images/#{prefix}/#{id}"
   end
 end

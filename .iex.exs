@@ -10,4 +10,6 @@ alias UnterEats.Orders.Order
 alias UnterEats.Orders.LineItem
 alias UnterEats.Users
 alias UnterEats.Users.User
-alias UnterEats.Image
+alias UnterEats.ImageUploader
+alias UnterEats.Images
+alias UnterEats.Images.Image

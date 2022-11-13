@@ -14,6 +14,10 @@ defmodule UnterEatsWeb.Api.Types.Products do
     field :price, :decimal
     field :slug, non_null(:string)
 
+    field :image_uuid, :id do
+      resolve_with_batch(UnterEats.Images, :batch_load_product_image_uuids)
+    end
+
     field :categories, non_null(list_of(non_null(:category))) do
       lazy_preload()
     end
