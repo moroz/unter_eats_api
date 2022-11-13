@@ -1,6 +1,7 @@
 defmodule UnterEatsWeb.Api.Schema do
   use Absinthe.Schema
 
+  import_types(Absinthe.Plug.Types)
   import_types(Absinthe.Type.Custom)
   import_types(UnterEatsWeb.Api.Types.Categories)
   import_types(UnterEatsWeb.Api.Types.Products)
