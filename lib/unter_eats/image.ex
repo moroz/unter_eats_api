@@ -1,6 +1,5 @@
 defmodule UnterEats.Image do
   use Waffle.Definition
-  use Waffle.Ecto.Definition
 
   @versions [:original, :thumb, :thumb_retina, :thumb_mobile, :thumb_mobile_retina]
 
