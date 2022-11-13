@@ -44,10 +44,12 @@ defmodule UnterEatsWeb.Api.Types.Orders do
   object :line_item do
     field :id, non_null(:id)
     field :order_id, non_null(:id)
-    field :product_id, non_null(:id)
+    field :product_id, :id
     field :quantity, non_null(:integer)
+    field :product_name, non_null(:string)
+    field :product_price, :decimal
 
-    field :product, non_null(:product) do
+    field :product, :product do
       lazy_preload()
     end
 

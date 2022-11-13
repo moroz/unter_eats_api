@@ -4,6 +4,8 @@ defmodule UnterEats.Orders.LineItem do
 
   schema "line_items" do
     field :quantity, :integer
+    field :product_name, :string
+    field :product_price, :decimal
     belongs_to :product, UnterEats.Products.Product
     belongs_to :order, UnterEats.Orders.Order
 

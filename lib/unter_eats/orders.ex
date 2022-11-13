@@ -18,7 +18,7 @@ defmodule UnterEats.Orders do
     |> Repo.paginate(params)
   end
 
-  defp base_query, do: Order
+  defp base_query, do: Order |> preload(:line_items)
 
   defp filter_by_params(query, params) do
     Enum.reduce(params, query, &do_filter_by_params/2)
