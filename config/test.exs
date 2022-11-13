@@ -33,4 +33,6 @@ config :stripity_stripe,
   api_key: "sk_test_thisisaboguskey",
   api_base_url: "http://localhost:12111/v1/"
 
-  config :bcrypt_elixir, :log_rounds, 4
+config :bcrypt_elixir, :log_rounds, 4
+
+config :waffle, storage: Waffle.Storage.Local

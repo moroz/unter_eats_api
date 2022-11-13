@@ -52,3 +52,8 @@ config :logger, level: :debug
 config :tzdata, :autoupdate, :disabled
 
 config :cors_plug, origin: ["https://panel.artesanokoszalin.pl"]
+
+config :ex_aws,
+  json_codec: Jason,
+  access_key_id: :instance_role,
+  secret_access_key: :instance_role
