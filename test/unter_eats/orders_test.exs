@@ -2,6 +2,7 @@ defmodule UnterEats.OrdersTest do
   use UnterEats.DataCase
 
   alias UnterEats.Orders
+  alias UnterEats.Store
 
   describe "orders" do
     setup do
@@ -12,6 +13,8 @@ defmodule UnterEats.OrdersTest do
     end
 
     test "creates order with valid params", ~M{lamburchili, dal} do
+      Store.open_store()
+
       params = %{
         first_name: "Jan",
         last_name: "Nowak",

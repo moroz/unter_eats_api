@@ -1,6 +1,7 @@
 defmodule UnterEatsWeb.Api.OrderMutationsTest do
   use UnterEatsWeb.GraphQLCase
   alias UnterEats.Orders.Order
+  alias UnterEats.Store
 
   @mutation """
   mutation CreateOrder($params: OrderParams!) {
@@ -27,6 +28,7 @@ defmodule UnterEatsWeb.Api.OrderMutationsTest do
   setup do
     lamburchili = insert(:product, name_pl: "Lamburchili", price: "21", slug: "lamburchili")
     dal = insert(:product, name_pl: "Dal tarkari", price: "37", slug: "dal")
+    Store.open_store()
 
     ~M{lamburchili, dal}
   end

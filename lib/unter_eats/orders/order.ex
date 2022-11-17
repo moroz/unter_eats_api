@@ -2,6 +2,7 @@ defmodule UnterEats.Orders.Order do
   use UnterEats.Schema
   import Ecto.Changeset
   alias UnterEats.Products
+  alias UnterEats.Store
   alias UnterEats.Orders.LineItem
   import EctoEnum
 
@@ -31,8 +32,19 @@ defmodule UnterEats.Orders.Order do
     order
     |> cast(attrs, @cast)
     |> validate_required(@required)
+    |> check_store_is_open()
     |> cast_assoc(:line_items, with: &LineItem.changeset/2)
     |> set_grand_total()
+  end
+
+  defp check_store_is_open(changeset) do
+    case Store.is_store_open?() do
+      false ->
+        add_error(changeset, :email, "The restaurant is currently closed.")
+
+      _ ->
+        changeset
+    end
   end
 
   defp set_grand_total(changeset) do
