@@ -26,4 +26,8 @@ defmodule UnterEats.Factory do
       price: 42
     }
   end
+
+  def business_log_factory do
+    %UnterEats.Store.BusinessLog{}
+  end
 end

@@ -1,6 +1,7 @@
 defmodule UnterEatsWeb.Api.Types.Store do
   use Absinthe.Schema.Notation
   alias UnterEatsWeb.Api.Middleware.RestrictAccess
+  alias UnterEatsWeb.Api.Resolvers.StoreResolvers
   import GraphQLTools.SchemaHelpers
 
   object :business_log do
@@ -25,20 +26,24 @@ defmodule UnterEatsWeb.Api.Types.Store do
     field :paginate_business_logs, non_null(:business_log_page) do
       arg(:params, :business_log_pagination_params)
       middleware(RestrictAccess)
+      resolve(&StoreResolvers.filter_and_paginate_business_logs/2)
       middleware(GraphQLTools.FormatPage)
     end
 
     field :is_store_open, non_null(:boolean) do
+      resolve(&StoreResolvers.is_store_open/2)
     end
   end
 
   object :store_mutations do
     field :close_store, non_null(:business_log_mutation_result) do
       middleware(RestrictAccess)
+      resolve(&StoreResolvers.close_store/2)
     end
 
     field :open_store, non_null(:business_log_mutation_result) do
       middleware(RestrictAccess)
+      resolve(&StoreResolvers.open_store/2)
     end
   end
 end

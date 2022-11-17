@@ -9,6 +9,7 @@ defmodule UnterEatsWeb.Api.Schema do
   import_types(UnterEatsWeb.Api.Types.Orders)
   import_types(UnterEatsWeb.Api.Types.Users)
   import_types(UnterEatsWeb.Api.Types.Images)
+  import_types(UnterEatsWeb.Api.Types.Store)
   import_types(GraphQLTools.ErrorTypes)
   import_types(GraphQLTools.PaginationTypes)
 
@@ -17,6 +18,7 @@ defmodule UnterEatsWeb.Api.Schema do
     import_fields(:category_queries)
     import_fields(:user_queries)
     import_fields(:order_queries)
+    import_fields(:store_queries)
   end
 
   mutation do
@@ -24,6 +26,7 @@ defmodule UnterEatsWeb.Api.Schema do
     import_fields(:user_mutations)
     import_fields(:product_mutations)
     import_fields(:image_mutations)
+    import_fields(:store_mutations)
   end
 
   alias UnterEatsWeb.Api.Middleware.TransformErrors

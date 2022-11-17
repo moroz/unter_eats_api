@@ -31,7 +31,7 @@ defmodule UnterEatsWeb.Api.Queries.ProductQueriesTest do
   end
 
   describe "paginateProducts query" do
-    test "blocks access to when not signed in" do
+    test "denies access when not signed in" do
       vars = %{params: %{q: "daal", page: 2}}
 
       %{data: nil, errors: [error]} = query(@query, vars)
