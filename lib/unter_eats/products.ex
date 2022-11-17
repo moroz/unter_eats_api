@@ -8,28 +8,25 @@ defmodule UnterEats.Products do
   alias UnterEats.SearchHelpers
 
   alias UnterEats.Products.Product
+  use UnterEats.Paginatable, :products
 
   def list_products do
     Repo.all(Product)
   end
 
+  @impl true
   def base_query do
     Product
     |> order_by(:name_pl)
   end
 
-  def filter_and_paginate_products(params \\ %{}) do
-    base_query()
-    |> SearchHelpers.filter_by_params(params, &filter_by_params/2)
-    |> Repo.paginate(params)
-  end
-
-  defp filter_by_params({:q, term}, query) do
+  @impl true
+  def filter_by_params({:q, term}, query) do
     ilike_term = SearchHelpers.to_ilike_term(term)
     where(query, [p], ilike(p.name_pl, ^ilike_term) or ilike(p.name_en, ^ilike_term))
   end
 
-  defp filter_by_params(_, query), do: query
+  def filter_by_params(_, query), do: query
 
   def get_product!(id), do: Repo.get!(Product, id)
 

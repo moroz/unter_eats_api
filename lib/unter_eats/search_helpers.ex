@@ -8,8 +8,4 @@ defmodule UnterEats.SearchHelpers do
 
     "%" <> term <> "%"
   end
-
-  def filter_by_params(query, params, filter_callback) when is_function(filter_callback, 2) do
-    Enum.reduce(params, query, filter_callback)
-  end
 end

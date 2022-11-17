@@ -9,6 +9,14 @@ defmodule UnterEats.Store do
   alias UnterEats.Store.BusinessLog
   import Ecto.Query
 
+  use UnterEats.Paginatable, :business_logs
+
+  @impl true
+  def base_query do
+    BusinessLog
+    |> order_by(desc: :start_time)
+  end
+
   def open_store do
     case current_log() do
       nil ->
