@@ -18,9 +18,8 @@ defmodule UnterEats.Application do
         # Start the PubSub system
         {Phoenix.PubSub, name: UnterEats.PubSub},
         # Start the Endpoint (http/https)
-        UnterEatsWeb.Endpoint
-        # Start a worker by calling: UnterEats.Worker.start_link(arg)
-        # {UnterEats.Worker, arg}
+        UnterEatsWeb.Endpoint,
+        {Absinthe.Subscription, UnterEatsWeb.Endpoint}
       ] ++ @migrator
 
     # See https://hexdocs.pm/elixir/Supervisor.html

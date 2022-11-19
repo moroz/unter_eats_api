@@ -29,6 +29,10 @@ defmodule UnterEatsWeb.Api.Schema do
     import_fields(:store_mutations)
   end
 
+  subscription do
+    import_fields(:order_subscriptions)
+  end
+
   alias UnterEatsWeb.Api.Middleware.TransformErrors
   alias UnterEatsWeb.Api.Middleware.RestrictAccess
   alias GraphQLTools.ResolutionWithErrorBoundary

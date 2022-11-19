@@ -91,4 +91,21 @@ defmodule UnterEatsWeb.Api.Types.Orders do
       middleware(GraphQLTools.FormatPage)
     end
   end
+
+  object :order_subscriptions do
+    field :order_placed, non_null(:order) do
+      config(fn _args ->
+        {:ok, topic: "orders"}
+      end)
+
+      trigger(:create_order,
+        topic: fn
+          %{success: true} -> "orders"
+          _ -> "failed_orders"
+        end
+      )
+
+      resolve(fn %{data: order}, _, _ -> {:ok, order} end)
+    end
+  end
 end

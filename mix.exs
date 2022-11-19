@@ -45,6 +45,7 @@ defmodule UnterEats.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:absinthe, "~> 1.7"},
       {:absinthe_plug, "~> 1.5"},
+      {:absinthe_phoenix, "~> 2.0"},
       {:graphql_tools, github: "moroz/graphql_tools"},
       {:shorter_maps, "~> 2.2"},
       {:ex_machina, "~> 2.7"},

@@ -1,6 +1,7 @@
 defmodule UnterEatsWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :unter_eats
   use Appsignal.Phoenix
+  use Absinthe.Phoenix.Endpoint
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
@@ -10,6 +11,8 @@ defmodule UnterEatsWeb.Endpoint do
     key: "_unter_eats_key",
     signing_salt: "0K56ElQv"
   ]
+
+  socket "/api/ws", UnterEatsWeb.Socket, websocket: true, longpoll: false
 
   # socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 

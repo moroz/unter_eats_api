@@ -12,6 +12,7 @@ defmodule UnterEatsWeb.Router do
 
     post "/", Absinthe.Plug,
       schema: UnterEatsWeb.Api.Schema,
+      socket: UnterEatsWeb.Socket,
       before_send: {GraphQLTools.SessionHelpers, :before_send}
 
     get "/", Absinthe.Plug.GraphiQL, schema: UnterEatsWeb.Api.Schema, interface: :playground
