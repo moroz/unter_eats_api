@@ -8,6 +8,10 @@ defmodule UnterEatsWeb.Api.Types.Users do
     field :email, non_null(:string)
     field :full_name, non_null(:string)
 
+    field :subscription_token, non_null(:string) do
+      resolve(&UserResolvers.subscription_token/3)
+    end
+
     timestamps()
   end
 
