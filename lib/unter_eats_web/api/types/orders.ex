@@ -4,6 +4,7 @@ defmodule UnterEatsWeb.Api.Types.Orders do
   alias UnterEatsWeb.Api.Middleware.RestrictAccess
   import GraphQLTools.SchemaHelpers
   alias UnterEatsWeb.Api.Resolvers.OrderResolvers
+  alias UnterEats.Orders.Order
 
   enum :delivery_type do
     value(:delivery)
@@ -24,6 +25,7 @@ defmodule UnterEatsWeb.Api.Types.Orders do
     field :phone_no, non_null(:string)
     field :last_name, :string
     field :delivery_type, non_null(:delivery_type)
+    field :paid_at, :datetime
 
     field :payment_intent, :payment_intent do
       resolve(&OrderResolvers.resolve_payment_intent/3)
@@ -98,14 +100,7 @@ defmodule UnterEatsWeb.Api.Types.Orders do
         {:ok, topic: "orders"}
       end)
 
-      trigger(:create_order,
-        topic: fn
-          %{success: true} -> "orders"
-          _ -> "failed_orders"
-        end
-      )
-
-      resolve(fn %{data: order}, _, _ -> {:ok, order} end)
+      resolve(fn %Order{} = order, _, _ -> {:ok, order} end)
     end
   end
 end

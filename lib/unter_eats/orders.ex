@@ -40,10 +40,14 @@ defmodule UnterEats.Orders do
     |> Repo.update()
   end
 
+  def broadcast_order_placed!(%Order{paid_at: %DateTime{}} = order) do
+    Absinthe.Subscription.publish(UnterEatsWeb.Endpoint, order, order_placed: "orders")
+  end
+
   def mark_order_as_paid(%Order{paid_at: nil} = order) do
-    order
-    |> Order.changeset(%{paid_at: Timex.now()})
-    |> Repo.update()
+    with {:ok, order} <- update_order(order, %{paid_at: Timex.now()}) do
+      broadcast_order_placed!(order)
+    end
   end
 
   def delete_order(%Order{} = order) do
