@@ -48,7 +48,7 @@ config :ex_aws,
   json_codec: Jason,
   access_key_id: {:awscli, :system, 30},
   secret_access_key: {:awscli, :system, 30},
-  region: [{:system, "AWS_REGION"}, "eu-central-1"]
+  region: "eu-central-1"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

@@ -57,3 +57,5 @@ config :ex_aws,
   json_codec: Jason,
   access_key_id: :instance_role,
   secret_access_key: :instance_role
+
+config :unter_eats, UnterEats.Mailer, adapter: Swoosh.Adapters.ExAwsAmazonSES

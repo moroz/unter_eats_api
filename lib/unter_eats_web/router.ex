@@ -27,6 +27,8 @@ defmodule UnterEatsWeb.Router do
       pipe_through [:fetch_session, :protect_from_forgery]
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview
+
+      get "/order_placed", UnterEatsWeb.EmailTestController, :order_placed
     end
   end
 end

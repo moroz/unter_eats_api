@@ -61,3 +61,5 @@ config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
 config :cors_plug, origin: ~r/.+/
+
+config :unter_eats, UnterEats.Mailer, adapter: Swoosh.Adapters.Local

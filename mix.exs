@@ -34,10 +34,11 @@ defmodule UnterEats.MixProject do
   defp deps do
     [
       {:phoenix, "~> 1.6.15"},
+      {:phoenix_html, "~> 3.0"},
+      {:phoenix_live_view, "~> 0.18.3"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.6"},
       {:postgrex, ">= 0.0.0"},
-      {:swoosh, "~> 1.3"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.18"},
@@ -63,7 +64,10 @@ defmodule UnterEats.MixProject do
       {:ex_aws_s3, "~> 2.0"},
       {:hackney, "~> 1.9"},
       {:sweet_xml, "~> 0.6"},
-      {:configparser_ex, "~> 4.0"}
+      {:configparser_ex, "~> 4.0"},
+      {:swoosh, "~> 1.8"},
+      {:phoenix_swoosh, "~> 1.1"},
+      {:gen_smtp, "~> 1.0"}
     ]
   end
 
