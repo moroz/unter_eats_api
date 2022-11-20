@@ -1,0 +1,21 @@
+# Issuing order subscription notices
+
+## Section
+
+```elixir
+import IEx.Helpers
+import_file(".iex.exs")
+```
+
+```elixir
+order =
+  Order
+  |> where([o], not is_nil(o.paid_at))
+  |> order_by(:inserted_at)
+  |> last()
+  |> Repo.one()
+```
+
+```elixir
+UnterEats.Orders.broadcast_order_placed!(order)
+```

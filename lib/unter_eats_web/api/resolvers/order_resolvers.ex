@@ -7,6 +7,10 @@ defmodule UnterEatsWeb.Api.Resolvers.OrderResolvers do
     Orders.create_order(params)
   end
 
+  def list_incoming_orders(_, _) do
+    {:ok, Orders.list_incoming_orders()}
+  end
+
   def resolve_payment_intent(order, _, _) do
     {:ok, Payments.get_or_create_order_payment_intent(order)}
   end

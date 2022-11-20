@@ -86,6 +86,11 @@ defmodule UnterEatsWeb.Api.Types.Orders do
   end
 
   object :order_queries do
+    field :incoming_orders, non_null(list_of(non_null(:order))) do
+      middleware(RestrictAccess)
+      resolve(&OrderResolvers.list_incoming_orders/2)
+    end
+
     field :paginate_orders, non_null(:order_page) do
       arg(:params, non_null(:order_pagination_params))
       middleware(RestrictAccess)

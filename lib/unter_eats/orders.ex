@@ -12,13 +12,21 @@ defmodule UnterEats.Orders do
     Repo.all(Order)
   end
 
+  def list_incoming_orders do
+    base_query()
+    |> Order.paid_orders()
+    |> Repo.all()
+  end
+
   def filter_and_paginate_orders(params \\ %{}) do
     base_query()
     |> filter_by_params(params)
     |> Repo.paginate(params)
   end
 
-  defp base_query, do: Order |> preload(:line_items)
+  defp base_query do
+    Order |> preload(:line_items) |> order_by(:inserted_at)
+  end
 
   defp filter_by_params(query, params) do
     Enum.reduce(params, query, &do_filter_by_params/2)

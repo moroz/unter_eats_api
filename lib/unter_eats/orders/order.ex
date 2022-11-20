@@ -5,6 +5,7 @@ defmodule UnterEats.Orders.Order do
   alias UnterEats.Store
   alias UnterEats.Orders.LineItem
   import EctoEnum
+  import Ecto.Query
 
   defenum(DeliveryType, :delivery_type, [:delivery, :pickup])
 
@@ -35,6 +36,10 @@ defmodule UnterEats.Orders.Order do
     |> check_store_is_open()
     |> cast_assoc(:line_items, with: &LineItem.changeset/2)
     |> set_grand_total()
+  end
+
+  def paid_orders(queryable) do
+    where(queryable, [o], not is_nil(o.paid_at))
   end
 
   defp check_store_is_open(changeset) do
