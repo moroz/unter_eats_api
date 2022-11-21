@@ -67,7 +67,8 @@ defmodule UnterEats.MixProject do
       {:configparser_ex, "~> 4.0"},
       {:swoosh, "~> 1.8"},
       {:phoenix_swoosh, "~> 1.1"},
-      {:gen_smtp, "~> 1.0"}
+      {:gen_smtp, "~> 1.0"},
+      {:absinthe_json_scalar, "~> 0.1.0"}
     ]
   end
 

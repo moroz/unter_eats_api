@@ -52,8 +52,9 @@ defmodule UnterEats.Orders do
     Absinthe.Subscription.publish(UnterEatsWeb.Endpoint, order, order_placed: "orders")
   end
 
-  def mark_order_as_paid(%Order{paid_at: nil} = order) do
-    with {:ok, order} <- update_order(order, %{paid_at: Timex.now()}) do
+  def mark_order_as_paid(%Order{paid_at: nil} = order, payment_method) do
+    with {:ok, order} <-
+           update_order(order, %{paid_at: Timex.now(), payment_method: payment_method}) do
       broadcast_order_placed!(order)
     end
   end

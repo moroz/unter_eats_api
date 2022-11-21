@@ -27,6 +27,8 @@ defmodule UnterEatsWeb.Api.Types.Orders do
     field :delivery_type, non_null(:delivery_type)
     field :paid_at, :datetime
     field :fulfilled_at, :datetime
+    field :payment_method, :string
+    field :metadata, :json
 
     field :payment_intent, :payment_intent do
       resolve(&OrderResolvers.resolve_payment_intent/3)
@@ -42,6 +44,7 @@ defmodule UnterEatsWeb.Api.Types.Orders do
     field :phone_no, non_null(:string)
     field :shipping_address, non_null(:string)
     field :line_items, non_null(list_of(non_null(:line_item_params)))
+    field :metadata, :json
   end
 
   object :line_item do

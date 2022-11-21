@@ -3,6 +3,7 @@ defmodule UnterEatsWeb.Api.Schema do
 
   import_types(Absinthe.Plug.Types)
   import_types(Absinthe.Type.Custom)
+  import_types(AbsintheJsonScalar)
   import_types(UnterEatsWeb.Api.Types.Categories)
   import_types(UnterEatsWeb.Api.Types.Products)
   import_types(UnterEatsWeb.Api.Types.Payments)

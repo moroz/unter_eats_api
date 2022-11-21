@@ -26,8 +26,8 @@ defmodule UnterEatsWeb.Api.OrderMutationsTest do
   """
 
   setup do
-    lamburchili = insert(:product, name_pl: "Lamburchili", price: "21", slug: "lamburchili")
-    dal = insert(:product, name_pl: "Dal tarkari", price: "37", slug: "dal")
+    lamburchili = build(:product, price: 21) |> with_name("Lamburchili") |> insert()
+    dal = build(:product, price: 37) |> with_name("Dal tarkari") |> insert()
     Store.open_store()
 
     ~M{lamburchili, dal}
@@ -45,7 +45,12 @@ defmodule UnterEatsWeb.Api.OrderMutationsTest do
         line_items: [
           %{product_id: lamburchili.id, quantity: 3},
           %{product_id: dal.id, quantity: 2}
-        ]
+        ],
+        metadata:
+          Jason.encode!(%{
+            viewport_width: 375,
+            viewport_height: 800
+          })
       }
 
       vars = %{params: params}
@@ -56,6 +61,7 @@ defmodule UnterEatsWeb.Api.OrderMutationsTest do
       assert order.shipping_address == params.shipping_address
       assert order.first_name == params.first_name
       assert order.last_name == params.last_name
+      assert order.metadata["viewport_width"]
 
       pi = actual["paymentIntent"]
       assert "pi_" <> _ = pi["stripeId"]
