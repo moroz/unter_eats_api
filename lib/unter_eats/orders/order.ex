@@ -19,6 +19,7 @@ defmodule UnterEats.Orders.Order do
     field :grand_total, :decimal
     field :shipping_address, :string
     field :paid_at, :utc_datetime
+    field :fulfilled_at, :utc_datetime
     has_many :line_items, LineItem
     has_many :payment_intents, UnterEats.Payments.PaymentIntent
 
@@ -26,7 +27,7 @@ defmodule UnterEats.Orders.Order do
   end
 
   @required ~w(first_name email delivery_type phone_no)a
-  @cast @required ++ ~w(last_name remarks shipping_address paid_at)a
+  @cast @required ++ ~w(last_name remarks shipping_address paid_at fulfilled_at)a
 
   @doc false
   def changeset(order, attrs) do
@@ -36,10 +37,21 @@ defmodule UnterEats.Orders.Order do
     |> check_store_is_open()
     |> cast_assoc(:line_items, with: &LineItem.changeset/2)
     |> set_grand_total()
+    |> check_constraint(:fulfilled_at,
+      name: "orders_must_be_paid_to_be_fulfilled",
+      message: "only paid orders can be marked as fulfilled"
+    )
   end
 
   def paid_orders(queryable) do
-    where(queryable, [o], not is_nil(o.paid_at))
+    queryable
+    |> where([o], not is_nil(o.paid_at))
+    |> where([o], is_nil(o.fulfilled_at))
+  end
+
+  def fulfilled_orders(queryable) do
+    queryable
+    |> where([o], not is_nil(o.paid_at) and not is_nil(o.fulfilled_at))
   end
 
   defp check_store_is_open(changeset) do
