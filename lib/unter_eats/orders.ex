@@ -25,7 +25,7 @@ defmodule UnterEats.Orders do
   end
 
   defp base_query do
-    Order |> preload(:line_items) |> order_by(:inserted_at)
+    Order |> preload(:line_items) |> order_by(desc: :inserted_at)
   end
 
   defp filter_by_params(query, params) do
