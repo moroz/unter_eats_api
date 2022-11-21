@@ -38,6 +38,7 @@ defmodule UnterEats.Orders.Order do
     |> cast(attrs, @cast)
     |> validate_required(@required)
     |> UnterEats.PhoneValidator.validate_phone_number()
+    |> EmailTldValidator.Ecto.validate_email()
     |> check_store_is_open()
     |> cast_assoc(:line_items, with: &LineItem.changeset/2)
     |> set_grand_total()

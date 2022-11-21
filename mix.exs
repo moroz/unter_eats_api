@@ -69,6 +69,7 @@ defmodule UnterEats.MixProject do
       {:phoenix_swoosh, "~> 1.1"},
       {:gen_smtp, "~> 1.0"},
       {:absinthe_json_scalar, "~> 0.1.0"},
+      {:email_tld_validator, "~> 0.1.0"},
       {:ex_phone_number, "~> 0.3.0"}
     ]
   end
