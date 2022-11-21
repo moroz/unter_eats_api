@@ -20,7 +20,7 @@ defmodule UnterEats.OrdersTest do
         last_name: "Nowak",
         delivery_type: :delivery,
         email: "nowak@poczta.onet.pl",
-        phone_no: "+48555123456",
+        phone_no: "555123456",
         shipping_address: "ul. Nowogrodzka 84/86",
         line_items: [
           %{product_id: lamburchili.id, quantity: 3},
@@ -31,6 +31,7 @@ defmodule UnterEats.OrdersTest do
       assert {:ok, order} = Orders.create_order(params)
       expected_total = Decimal.add(Decimal.mult(lamburchili.price, 3), Decimal.mult(dal.price, 2))
       assert order.grand_total == expected_total
+      assert order.phone_no == "+48555123456"
     end
   end
 end
