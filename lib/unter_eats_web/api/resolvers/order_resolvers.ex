@@ -7,6 +7,21 @@ defmodule UnterEatsWeb.Api.Resolvers.OrderResolvers do
     Orders.create_order(params)
   end
 
+  def order_fulfilled(~M{id}, _) do
+    order = Orders.get_order!(id)
+
+    case Orders.mark_order_as_fulfilled(order) do
+      {:error, :already_fulfilled} ->
+        {:error, "This order has already been fulfilled."}
+
+      {:error, :not_paid} ->
+        {:error, "Only paid orders can be marked as fulfilled."}
+
+      other ->
+        other
+    end
+  end
+
   def list_incoming_orders(_, _) do
     {:ok, Orders.list_incoming_orders()}
   end

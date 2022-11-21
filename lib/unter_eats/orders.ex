@@ -58,6 +58,15 @@ defmodule UnterEats.Orders do
     end
   end
 
+  def mark_order_as_fulfilled(%Order{paid_at: %{}, fulfilled_at: %{}}),
+    do: {:error, :already_fulfilled}
+
+  def mark_order_as_fulfilled(%Order{paid_at: nil}), do: {:error, :not_paid}
+
+  def mark_order_as_fulfilled(%Order{paid_at: %{}, fulfilled_at: nil} = order) do
+    update_order(order, %{fulfilled_at: Timex.now()})
+  end
+
   def delete_order(%Order{} = order) do
     Repo.delete(order)
   end

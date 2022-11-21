@@ -26,6 +26,7 @@ defmodule UnterEatsWeb.Api.Types.Orders do
     field :last_name, :string
     field :delivery_type, non_null(:delivery_type)
     field :paid_at, :datetime
+    field :fulfilled_at, :datetime
 
     field :payment_intent, :payment_intent do
       resolve(&OrderResolvers.resolve_payment_intent/3)
@@ -79,9 +80,15 @@ defmodule UnterEatsWeb.Api.Types.Orders do
 
   object :order_mutations do
     field :create_order, non_null(:order_mutation_result) do
-      arg(:params, :order_params)
+      arg(:params, non_null(:order_params))
       resolve(&OrderResolvers.create_order/2)
       middleware(UnterEatsWeb.Api.Middleware.StoreOrderIdInSession)
+    end
+
+    field :order_fulfilled, non_null(:order_mutation_result) do
+      arg(:id, non_null(:id))
+      middleware(RestrictAccess)
+      resolve(&OrderResolvers.order_fulfilled/2)
     end
   end
 

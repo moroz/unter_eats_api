@@ -64,4 +64,66 @@ defmodule UnterEatsWeb.Api.OrderMutationsTest do
       assert pi["orderId"] == order.id
     end
   end
+
+  @mutation """
+  mutation OrderFulfilled($id: ID!) {
+    result: orderFulfilled(id: $id) {
+      success
+      errors {
+        key
+        message
+      }
+      data {
+        id
+        paidAt
+        fulfilledAt
+      }
+    }
+  }
+  """
+
+  describe "orderFulfilled mutation" do
+    setup do
+      [user: insert(:user)]
+    end
+
+    test "denies access when called unauthenticated" do
+      order = build(:order) |> paid() |> insert()
+
+      vars = %{id: order.id}
+
+      %{data: %{"result" => %{"success" => false, "errors" => [error]}}} = mutate(@mutation, vars)
+
+      assert error["message"] =~ "authenticate"
+    end
+
+    test "returns error when called with unpaid order", ~M{user} do
+      vars = %{id: insert(:order).id}
+
+      %{"result" => %{"success" => false, "errors" => [errors]}} =
+        mutate_with_user(@mutation, user, vars)
+
+      assert errors["message"] =~ "paid"
+    end
+
+    test "returns error when called with fulfilled order", ~M{user} do
+      order = build(:order) |> paid() |> fulfilled() |> insert()
+      vars = %{id: order.id}
+
+      %{"result" => %{"success" => false, "errors" => [errors]}} =
+        mutate_with_user(@mutation, user, vars)
+
+      assert errors["message"] =~ "fulfilled"
+    end
+
+    test "marks order as fulfilled when called with valid params", ~M{user} do
+      order = build(:order) |> paid() |> insert()
+      vars = %{id: order.id}
+
+      %{"result" => %{"success" => true, "errors" => [], "data" => actual}} =
+        mutate_with_user(@mutation, user, vars)
+
+      assert {:ok, %DateTime{}, 0} = DateTime.from_iso8601(actual["fulfilledAt"])
+    end
+  end
 end

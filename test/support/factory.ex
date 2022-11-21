@@ -27,7 +27,42 @@ defmodule UnterEats.Factory do
     }
   end
 
+  def with_name(%UnterEats.Products.Product{} = product, name) when is_binary(name) do
+    %{product | name_pl: name, slug: UnterEats.SlugHelpers.slugify(name)}
+  end
+
   def business_log_factory do
     %UnterEats.Store.BusinessLog{}
+  end
+
+  def line_item_factory do
+    product = build(:product)
+
+    %UnterEats.Orders.LineItem{
+      product: product,
+      quantity: 1,
+      product_name: product.name_pl,
+      product_price: product.price
+    }
+  end
+
+  def order_factory do
+    %UnterEats.Orders.Order{
+      first_name: "Test",
+      last_name: "User",
+      email: "user@example.com",
+      phone_no: "555123456",
+      delivery_type: :pickup,
+      line_items: build_list(2, :line_item),
+      grand_total: 108
+    }
+  end
+
+  def paid(%UnterEats.Orders.Order{} = order) do
+    %{order | paid_at: Ecto.Schema.__timestamps__(:utc_datetime)}
+  end
+
+  def fulfilled(%UnterEats.Orders.Order{} = order) do
+    %{order | fulfilled_at: Ecto.Schema.__timestamps__(:utc_datetime)}
   end
 end
