@@ -4,7 +4,7 @@ defmodule UnterEatsWeb.Api.Resolvers.OrderResolvers do
   import ShorterMaps
 
   def get_order(~M{id}, _) do
-    {:ok, Orders.get_order!()}
+    {:ok, Orders.get_order!(id)}
   end
 
   def create_order(~M{params}, _) do

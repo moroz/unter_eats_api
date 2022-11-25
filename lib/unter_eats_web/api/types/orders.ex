@@ -34,6 +34,8 @@ defmodule UnterEatsWeb.Api.Types.Orders do
     field :payment_intent, :payment_intent do
       resolve(&OrderResolvers.resolve_payment_intent/3)
     end
+
+    timestamps()
   end
 
   input_object :order_params do
