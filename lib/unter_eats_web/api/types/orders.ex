@@ -29,6 +29,7 @@ defmodule UnterEatsWeb.Api.Types.Orders do
     field :fulfilled_at, :datetime
     field :payment_method, :string
     field :metadata, :json
+    field :remarks, :string
 
     field :payment_intent, :payment_intent do
       resolve(&OrderResolvers.resolve_payment_intent/3)
