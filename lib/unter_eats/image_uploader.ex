@@ -1,7 +1,15 @@
 defmodule UnterEats.ImageUploader do
   use Waffle.Definition
 
-  @versions [:original, :thumb, :thumb_retina, :thumb_mobile, :thumb_mobile_retina]
+  @versions [
+    :original,
+    :thumb,
+    :thumb_retina,
+    :thumb_mobile,
+    :thumb_mobile_retina,
+    :cart_thumb,
+    :cart_thumb_retina
+  ]
 
   @base_headers [cache_control: "max-age=31536000,public"]
 
@@ -49,6 +57,8 @@ defmodule UnterEats.ImageUploader do
      end, :webp}
   end
 
+  defp dimensions(:cart_thumb), do: "90x90"
+  defp dimensions(:cart_thumb_retina), do: "180x180"
   defp dimensions(:thumb), do: "275x275"
   defp dimensions(:thumb_retina), do: "550x550"
   defp dimensions(:thumb_mobile), do: "170x170"
