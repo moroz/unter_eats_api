@@ -108,6 +108,12 @@ defmodule UnterEatsWeb.Api.Types.Orders do
       resolve(&OrderResolvers.paginate_orders/2)
       middleware(GraphQLTools.FormatPage)
     end
+
+    field :order, :order do
+      arg(:id, non_null(:id))
+      middleware(RestrictAccess)
+      resolve(&OrderResolvers.get_order/2)
+    end
   end
 
   object :order_subscriptions do

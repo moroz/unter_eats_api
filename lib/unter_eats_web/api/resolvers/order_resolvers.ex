@@ -3,6 +3,10 @@ defmodule UnterEatsWeb.Api.Resolvers.OrderResolvers do
   alias UnterEats.Payments
   import ShorterMaps
 
+  def get_order(~M{id}, _) do
+    {:ok, Orders.get_order!()}
+  end
+
   def create_order(~M{params}, _) do
     Orders.create_order(params)
   end
