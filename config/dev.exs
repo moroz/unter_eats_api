@@ -62,4 +62,6 @@ config :phoenix, :plug_init_mode, :runtime
 
 config :cors_plug, origin: ~r/.+/
 
+config :swoosh, :api_client, Swoosh.ApiClient.Hackney
+
 config :unter_eats, UnterEats.Mailer, adapter: Swoosh.Adapters.Local

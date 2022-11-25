@@ -1,0 +1,25 @@
+# Sending emails
+
+## Initial setup
+
+```elixir
+import IEx.Helpers
+import_file(".iex.exs")
+```
+
+```elixir
+alias UnterEats.Mailer
+alias UnterEatsWeb.OrderNotifier
+```
+
+```elixir
+order = Order |> last |> Repo.one()
+```
+
+```elixir
+email = OrderNotifier.order_placed(order)
+```
+
+```elixir
+UnterEats.Mailer.deliver(email)
+```

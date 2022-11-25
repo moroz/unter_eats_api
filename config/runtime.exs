@@ -24,6 +24,10 @@ if config_env() != :test do
   config :stripity_stripe, api_key: System.get_env("STRIPE_SECRET")
 end
 
+if config_env() == :dev and System.get_env("USE_SES") do
+  config :unter_eats, UnterEats.Mailer, adapter: Swoosh.Adapters.ExAwsAmazonSES
+end
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||
