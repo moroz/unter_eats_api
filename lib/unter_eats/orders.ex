@@ -12,6 +12,10 @@ defmodule UnterEats.Orders do
     Repo.all(Order)
   end
 
+  def preload_assocs(order) do
+    Repo.preload(order, :line_items)
+  end
+
   def list_incoming_orders do
     base_query()
     |> Order.paid_orders()

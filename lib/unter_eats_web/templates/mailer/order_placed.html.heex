@@ -1,0 +1,16 @@
+<p align="left">Dziękujemy za złożenie zamówienia w internetowym systemie zamówień Artesano Sports Bar. Twoje zamówienie zostało przyjęte i opłacone. Orientacyjny czas realizacji zamówienia wynosi 40&ndash;60 minut.</p>
+
+<section style="padding: 24px; background: #f0f0f0">
+<h3 style="margin: 0 0 16px">Podsumowanie zamówienia</h3>
+<table width="100%">
+  <tbody style="border-bottom: 1px solid"> 
+    <%= for item <- @order.line_items do %>
+      <tr>
+        <td align="left"><%= item.product_name %></td>
+        <td width="10%"><%= item.quantity %></td>
+        <td align="right"><%= Decimal.mult(item.quantity, item.product_price) %> zł</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</section>

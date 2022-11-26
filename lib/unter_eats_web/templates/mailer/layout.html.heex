@@ -15,11 +15,6 @@
   </noscript>
   <![endif]-->
   <style>
-/* Dark mode settings */
-    :root {
-      color-scheme: light dark;
-    }
-
 /* Reset */
     html, body {
       margin: 0 auto !important;
@@ -30,6 +25,10 @@
     .main {
       box-sizing: border-box;
     }
+
+  a:link, a:visited {
+    color: rgb(201, 52, 0);
+  }
 
 /* Responsive adjustments */
     @media screen and (max-width: 480px) {
@@ -64,23 +63,6 @@
         padding-bottom: 14px !important;
       }
     }
-
-/* Dark mode adjustments */
-    @media (prefers-color-scheme: dark) {
-      body, .wrapper {
-        background-color: #222 !important;
-      }
-      h1, h2, h3, p, ul li, code {
-        color: #f1f1f1 !important;
-      }
-      .column.alt {
-        background-color: #1b1b1b !important;
-      }
-      .btn a {
-        background: #a6a6a6 !important;
-        color: #404040 !important;
-      }
-    }
   </style>
 </head>
 <body style="background: #ffffff;">
@@ -109,7 +91,6 @@
             <h2 style="margin: 0; margin-bottom: 10px; font-family: Georgia, Times New Roman, serif; font-size: 28px; line-height: 32px; color: #333333; font-weight: normal;"><%= @email.subject %></h2>
           </div>
           <%= @inner_content %>
-          <p style="margin: 0; margin-bottom: 10px; font-family: Helvetica Neue, Helvetica, Arial, sans-serif;">Text copy goes here. Sometimes it includes email provider tokens to pull in audience info, like %%first_name%%. And some additional text that may also include a <a href="https://blocksedit.com/#" style="text-decoration: underline; color: #1467ac;">link</a>.</p>
         </div>
 
       </div>

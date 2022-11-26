@@ -1,9 +1,12 @@
 defmodule UnterEatsWeb.OrderNotifier do
   use Phoenix.Swoosh, view: UnterEatsWeb.MailerView, layout: {UnterEatsWeb.MailerView, :layout}
 
+  alias UnterEats.Orders
   alias UnterEats.Orders.Order
 
   def order_placed(%Order{} = order) do
+    order = Orders.preload_assocs(order)
+
     new()
     |> from({"Artesano Sports Bar", "zamowienia@artesanokoszalin.pl"})
     |> set_user_to(order)
