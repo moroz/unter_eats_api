@@ -22,6 +22,7 @@ defmodule UnterEats.Orders.Order do
     field :metadata, :map
     field :paid_at, :utc_datetime
     field :fulfilled_at, :utc_datetime
+    field :shipping_fee, :decimal
     has_many :line_items, LineItem
     has_many :payment_intents, UnterEats.Payments.PaymentIntent
 
