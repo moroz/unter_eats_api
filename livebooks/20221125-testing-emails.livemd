@@ -17,6 +17,10 @@ order = Order |> last |> Repo.one()
 ```
 
 ```elixir
+recompile(force: true)
+```
+
+```elixir
 email = OrderNotifier.order_placed(order)
 ```
 

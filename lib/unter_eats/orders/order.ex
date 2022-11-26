@@ -30,8 +30,7 @@ defmodule UnterEats.Orders.Order do
   end
 
   @required ~w(first_name email delivery_type phone_no)a
-  @cast @required ++ ~w(last_name remarks shipping_address paid_at fulfilled_at
-                        metadata payment_method)a
+  @cast @required ++ ~w(last_name remarks shipping_address metadata payment_method)a
 
   @doc false
   def changeset(order, attrs) do
@@ -43,6 +42,11 @@ defmodule UnterEats.Orders.Order do
     |> check_store_is_open()
     |> cast_assoc(:line_items, with: &LineItem.changeset/2)
     |> set_grand_total()
+  end
+
+  def update_changeset(order, attrs) do
+    order
+    |> cast(attrs, ~w(paid_at fulfilled_at)a)
     |> check_constraint(:fulfilled_at,
       name: "orders_must_be_paid_to_be_fulfilled",
       message: "only paid orders can be marked as fulfilled"
@@ -73,8 +77,14 @@ defmodule UnterEats.Orders.Order do
   defp set_grand_total(changeset) do
     case get_change(changeset, :line_items) do
       line_items when is_list(line_items) ->
+        delivery_type = get_change(changeset, :delivery_type)
         subtotal = calculate_total(line_items)
-        put_change(changeset, :grand_total, subtotal)
+        shipping_fee = calculate_shipping_fee(delivery_type, subtotal)
+        grand_total = Decimal.add(subtotal, shipping_fee)
+
+        changeset
+        |> put_change(:grand_total, grand_total)
+        |> put_change(:shipping_fee, shipping_fee)
 
       _ ->
         changeset
@@ -87,6 +97,16 @@ defmodule UnterEats.Orders.Order do
       quantity = get_field(line_item, :quantity)
       {product_id, quantity}
     end
+  end
+
+  # TODO: Make this configurable
+  @threshold 100
+  @shipping_fee 15
+
+  defp calculate_shipping_fee(:pickup, _), do: 0
+
+  defp calculate_shipping_fee(_, subtotal) do
+    if Decimal.lt?(subtotal, @threshold), do: @shipping_fee, else: 0
   end
 
   defp calculate_total(line_items) do

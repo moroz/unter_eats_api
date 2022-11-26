@@ -48,7 +48,7 @@ defmodule UnterEats.Orders do
 
   def update_order(%Order{} = order, attrs) do
     order
-    |> Order.changeset(attrs)
+    |> Order.update_changeset(attrs)
     |> Repo.update()
   end
 
@@ -60,6 +60,7 @@ defmodule UnterEats.Orders do
     with {:ok, order} <-
            update_order(order, %{paid_at: Timex.now(), payment_method: payment_method}) do
       broadcast_order_placed!(order)
+      send_order_confirmation_email!(order)
     end
   end
 
@@ -70,6 +71,14 @@ defmodule UnterEats.Orders do
 
   def mark_order_as_fulfilled(%Order{paid_at: %{}, fulfilled_at: nil} = order) do
     update_order(order, %{fulfilled_at: Timex.now()})
+  end
+
+  def send_order_confirmation_email!(%Order{paid_at: %DateTime{}} = order) do
+    Task.start(fn ->
+      order
+      |> UnterEatsWeb.OrderNotifier.order_placed()
+      |> UnterEats.Mailer.deliver()
+    end)
   end
 
   def delete_order(%Order{} = order) do

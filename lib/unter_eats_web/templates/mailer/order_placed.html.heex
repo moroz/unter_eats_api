@@ -1,16 +1,36 @@
 <p align="left">Dziękujemy za złożenie zamówienia w internetowym systemie zamówień Artesano Sports Bar. Twoje zamówienie zostało przyjęte i opłacone. Orientacyjny czas realizacji zamówienia wynosi 40&ndash;60 minut.</p>
 
-<section style="padding: 24px; background: #f0f0f0">
-<h3 style="margin: 0 0 16px">Podsumowanie zamówienia</h3>
+<section style="padding: 24px 20px 16px; background: #f2f2f2; margin: 25px 0 32px">
+<h3 style="margin: 0 0 16px; text-align: left; font-size: 18px; border-bottom: 1px solid #999; color: #444; padding-bottom: 8px">Podsumowanie zamówienia</h3>
 <table width="100%">
-  <tbody style="border-bottom: 1px solid"> 
+  <tbody style="border-bottom: 1px solid; font-size: 16px"> 
     <%= for item <- @order.line_items do %>
       <tr>
-        <td align="left"><%= item.product_name %></td>
-        <td width="10%"><%= item.quantity %></td>
-        <td align="right"><%= Decimal.mult(item.quantity, item.product_price) %> zł</td>
+        <td align="left" style="padding-left: 0"><%= item.product_name %></td>
+        <td width="50px" align="center"><%= item.product_price %> zł</td>
+        <td width="50px" align="center">&times; <%= item.quantity %></td>
+        <td width="65px" align="right">= <%= Decimal.mult(item.quantity, item.product_price) %> zł</td>
       </tr>
     <% end %>
+  </tbody>
+</table>
+<table width="100%" style="border-top: 1px solid #999; margin-top: 12px">
+  <tbody>
+    <tr>
+      <td colspan="2" height="8"></td>
+    </tr>
+    <tr>
+      <td align="left" style="font-weight: bold" style="padding-left: 0">Podsuma:</td>
+      <td align="right" width="65px"><%= Decimal.sub(@order.grand_total, @order.shipping_fee) %> zł</td>
+    </tr>
+    <tr>
+      <td align="left" style="padding-left: 0">Dostawa:</td>
+      <td align="right" width="65px"><%= @order.shipping_fee %> zł</td>
+    </tr>
+    <tr>
+      <td align="left" style="font-weight: bold; padding-left: 0">Zapłacono<%= format_payment_method(@order) %>:</td>
+      <td align="right" width="65px"><%= @order.grand_total %> zł</td>
+    </tr>
   </tbody>
 </table>
 </section>

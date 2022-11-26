@@ -6,7 +6,7 @@ defmodule UnterEatsWeb.EmailTestController do
   import Ecto.Query
 
   def order_placed(conn, _params) do
-    order = Order |> order_by(:inserted_at) |> last() |> Repo.one!()
+    order = Order |> Order.paid_orders() |> order_by(:inserted_at) |> last() |> Repo.one!()
     email = UnterEatsWeb.OrderNotifier.order_placed(order)
 
     send_resp(conn, 200, email.html_body)
