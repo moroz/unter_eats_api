@@ -10,7 +10,7 @@ defmodule UnterEats.Products.Product do
     field :name_pl, :string
     field :price, :decimal
     field :slug, :string
-    field :in_stock, :boolean
+    field :in_stock, :boolean, default: true
 
     has_one :image, UnterEats.Images.Image
     has_many :products_categories, UnterEats.Products.ProductCategory

@@ -70,6 +70,7 @@ defmodule UnterEatsWeb.Api.Mutations.ProductsMutationsTest do
       success
       data {
         id
+        inStock
         namePl
         nameEn
         descriptionEn
@@ -95,10 +96,12 @@ defmodule UnterEatsWeb.Api.Mutations.ProductsMutationsTest do
       name_en: "Updated English name",
       description_pl: "Updated PL description",
       description_en: "Updated EN description",
-      price: 43
+      price: 43,
+      in_stock: false
     }
 
     test "denies access when called without user", ~M{product} do
+      assert product.in_stock
       vars = %{id: product.id, params: @valid_params}
 
       %{data: %{"updateProduct" => %{"success" => false, "data" => nil, "errors" => [error]}}} =
@@ -110,6 +113,7 @@ defmodule UnterEatsWeb.Api.Mutations.ProductsMutationsTest do
 
     test "updates product with valid params", ~M{user, product} do
       vars = %{id: product.id, params: @valid_params}
+      assert product.in_stock
 
       %{"updateProduct" => %{"success" => true, "data" => actual, "errors" => []}} =
         mutate_with_user(@mutation, user, vars)
@@ -119,6 +123,7 @@ defmodule UnterEatsWeb.Api.Mutations.ProductsMutationsTest do
       assert actual["descriptionPl"] == @valid_params.description_pl
       assert actual["descriptionEn"] == @valid_params.description_en
       assert actual["price"] == "43"
+      assert actual["inStock"] == false
     end
 
     test "does not update product with invalid params", ~M{user, product} do

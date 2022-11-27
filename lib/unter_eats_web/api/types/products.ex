@@ -13,6 +13,7 @@ defmodule UnterEatsWeb.Api.Types.Products do
     field :name_pl, non_null(:string)
     field :price, :decimal
     field :slug, non_null(:string)
+    field :in_stock, non_null(:boolean)
 
     field :image_uuid, :id do
       resolve_with_batch(UnterEats.Images, :batch_load_product_image_uuids)
@@ -40,6 +41,7 @@ defmodule UnterEatsWeb.Api.Types.Products do
     field :description_en, :string
     field :price, non_null(:decimal)
     field :slug, :string
+    field :in_stock, :boolean
   end
 
   input_object :update_product_params do
@@ -49,6 +51,7 @@ defmodule UnterEatsWeb.Api.Types.Products do
     field :description_en, :string
     field :price, :decimal
     field :slug, :string
+    field :in_stock, :boolean
   end
 
   object :product_mutation_result do
@@ -73,6 +76,13 @@ defmodule UnterEatsWeb.Api.Types.Products do
       arg(:id, non_null(:id))
       middleware(RestrictAccess)
       resolve(&ProductResolvers.delete_product/2)
+    end
+
+    field :toggle_product_in_stock, non_null(:product_mutation_result) do
+      arg(:id, non_null(:id))
+      arg(:in_stock, :boolean)
+      middleware(RestrictAccess)
+      resolve(&ProductResolvers.toggle_product_in_stock/2)
     end
   end
 

@@ -2,6 +2,12 @@ defmodule UnterEatsWeb.Api.Resolvers.ProductResolvers do
   alias UnterEats.Products
   import ShorterMaps
 
+  def toggle_product_in_stock(~M{id} = params, _) do
+    in_stock = Map.get(params, :in_stock)
+    product = Products.get_product!(id)
+    Products.toggle_product_in_stock(product)
+  end
+
   def get_product(~M{id}, _) do
     {:ok, Products.get_product!(id)}
   end
