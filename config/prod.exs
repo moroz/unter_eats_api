@@ -52,7 +52,7 @@ config :logger, level: :debug
 
 config :tzdata, :autoupdate, :disabled
 
-config :cors_plug, origin: ["https://panel.artesanokoszalin.pl"]
+config :cors_plug, origin: ["https://panel.samosa.cc"]
 
 config :ex_aws,
   json_codec: Jason,
