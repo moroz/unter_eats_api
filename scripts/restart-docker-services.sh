@@ -2,7 +2,7 @@
 
 set -e
 
-DOCKER_COMPOSE_PATH=/usr/local/artesano/docker-compose.yml
+DOCKER_COMPOSE_PATH=/usr/local/server/docker-compose.yml
 AWS_ACCOUNT_ID="${AWS_ACCOUNT_ID:-168876208241}"
 AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION:-eu-central-1}"
 
