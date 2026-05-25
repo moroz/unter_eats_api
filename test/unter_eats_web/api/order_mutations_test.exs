@@ -1,5 +1,6 @@
 defmodule UnterEatsWeb.Api.OrderMutationsTest do
   use UnterEatsWeb.GraphQLCase
+  import Mock
   alias UnterEats.Orders.Order
   alias UnterEats.Store
 
@@ -57,20 +58,29 @@ defmodule UnterEatsWeb.Api.OrderMutationsTest do
       }
 
       vars = %{params: params}
-      %{data: %{"result" => %{"success" => true, "data" => actual}}} = mutate(@mutation, vars)
-      order = Repo.get!(Order, actual["id"])
-      assert order.grand_total == Decimal.new(137)
-      assert order.email == params.email
-      assert order.shipping_address == params.shipping_address
-      assert order.first_name == params.first_name
-      assert order.last_name == params.last_name
-      assert order.metadata["viewport_width"]
 
-      pi = actual["paymentIntent"]
-      assert "pi_" <> _ = pi["stripeId"]
-      assert "pi_" <> _ = pi["clientSecret"]
-      refute pi["clientSecret"] == pi["stripeId"]
-      assert pi["orderId"] == order.id
+      stripe_id = "pi_test_" <> Base.encode16(:crypto.strong_rand_bytes(8), case: :lower)
+      client_secret = stripe_id <> "_secret_" <> Base.encode16(:crypto.strong_rand_bytes(8), case: :lower)
+
+      mock_intent = %Stripe.PaymentIntent{id: stripe_id, client_secret: client_secret}
+
+      with_mock Stripe.PaymentIntent, create: fn _params -> {:ok, mock_intent} end do
+        %{data: %{"result" => %{"success" => true, "data" => actual}}} = mutate(@mutation, vars)
+        order = Repo.get!(Order, actual["id"])
+        assert order.grand_total == Decimal.new(137)
+        assert order.email == params.email
+        assert order.shipping_address == params.shipping_address
+        assert order.first_name == params.first_name
+        assert order.last_name == params.last_name
+        assert order.metadata["viewport_width"]
+
+        pi = actual["paymentIntent"]
+        assert pi["stripeId"] == stripe_id
+        assert pi["clientSecret"] == client_secret
+        assert pi["orderId"] == order.id
+
+        assert_called(Stripe.PaymentIntent.create(:_))
+      end
     end
   end
 

@@ -68,9 +68,19 @@ defmodule UnterEats.Products do
     Product.changeset(product, attrs)
   end
 
-  def toggle_product_in_stock(%Product{} = product, nil = in_stock) do
+  def toggle_product_in_stock(%Product{} = product, in_stock)
+      when in_stock in [nil, true, false] do
+    new_value =
+      case in_stock do
+        nil ->
+          !product.in_stock
+
+        bool when is_boolean(bool) ->
+          bool
+      end
+
     product
-    |> Product.in_stock_changeset(%{in_stock: !product.in_stock})
+    |> Product.in_stock_changeset(%{in_stock: new_value})
     |> Repo.update()
   end
 end
