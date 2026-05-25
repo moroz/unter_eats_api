@@ -27,7 +27,7 @@ defmodule UnterEatsWeb.Api.Queries.ProductQueriesTest do
     user = insert(:user)
     paneer = insert(:product, name_pl: "Paneer vindaloo", price: 30, slug: "paneer-vindaloo-abcd")
     aloo_gobi = insert(:product, name_pl: "Aloo gobi", price: 42, slug: "aloo-gobi-1234")
-    ~M{user, paneer, aloo_gobi}
+    %{user: user, paneer: paneer, aloo_gobi: aloo_gobi}
   end
 
   describe "paginateProducts query" do
@@ -40,7 +40,7 @@ defmodule UnterEatsWeb.Api.Queries.ProductQueriesTest do
     end
 
     test "returns a page of products when called with a valid user",
-         ~M{user, paneer, aloo_gobi} do
+         %{user: user, paneer: paneer, aloo_gobi: aloo_gobi} do
       vars = %{params: %{}}
       %{"paginateProducts" => %{"data" => actual}} = query_with_user(@query, user, vars)
 

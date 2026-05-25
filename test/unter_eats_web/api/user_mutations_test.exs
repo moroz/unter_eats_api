@@ -22,7 +22,7 @@ defmodule UnterEatsWeb.Api.UserMutationsTest do
   """
 
   describe "signIn mutation" do
-    test "signs user in with valid email and password", ~M{user, conn} do
+    test "signs user in with valid email and password", %{user: user, conn: conn} do
       vars = %{email: user.email, password: @password}
       conn = query_over_router(conn, @mutation, vars)
 
@@ -33,7 +33,7 @@ defmodule UnterEatsWeb.Api.UserMutationsTest do
       assert actual["id"] == user.id
     end
 
-    test "does not sign user in with invalid password", ~M{user, conn} do
+    test "does not sign user in with invalid password", %{user: user, conn: conn} do
       vars = %{email: user.email, password: "invalid"}
       conn = query_over_router(conn, @mutation, vars)
 
@@ -51,7 +51,7 @@ defmodule UnterEatsWeb.Api.UserMutationsTest do
   """
 
   describe "signOut mutation" do
-    test "signs user out when signed in", ~M{user, conn} do
+    test "signs user out when signed in", %{user: user, conn: conn} do
       conn =
         conn
         |> Plug.Test.init_test_session(%{user_id: user.id})

@@ -1,8 +1,7 @@
 defmodule UnterEatsWeb.Api.Resolvers.CategoryResolvers do
   alias UnterEats.Categories
-  import ShorterMaps
 
-  def get_category(~M{id}, _) do
+  def get_category(%{id: id}, _) do
     {:ok, Categories.get_category_by_slug_or_id!(id)}
   end
 

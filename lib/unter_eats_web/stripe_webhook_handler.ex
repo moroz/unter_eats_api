@@ -2,7 +2,6 @@ defmodule UnterEatsWeb.StripeWebhookHandler do
   @behaviour Stripe.WebhookHandler
 
   import Logger
-  import ShorterMaps
   alias Stripe.PaymentMethod
   alias UnterEats.Orders
 
@@ -15,7 +14,7 @@ defmodule UnterEatsWeb.StripeWebhookHandler do
   defp handle_payment_intent(%Stripe.PaymentIntent{
          amount: amount,
          amount_received: amount,
-         metadata: ~m{order_id},
+         metadata: %{"order_id" => order_id},
          id: id,
          payment_method: method
        }) do

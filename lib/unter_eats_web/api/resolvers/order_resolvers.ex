@@ -1,17 +1,16 @@
 defmodule UnterEatsWeb.Api.Resolvers.OrderResolvers do
   alias UnterEats.Orders
   alias UnterEats.Payments
-  import ShorterMaps
 
-  def get_order(~M{id}, _) do
+  def get_order(%{id: id}, _) do
     {:ok, Orders.get_order!(id)}
   end
 
-  def create_order(~M{params}, _) do
+  def create_order(%{params: params}, _) do
     Orders.create_order(params)
   end
 
-  def order_fulfilled(~M{id}, _) do
+  def order_fulfilled(%{id: id}, _) do
     order = Orders.get_order!(id)
 
     case Orders.mark_order_as_fulfilled(order) do
@@ -34,7 +33,7 @@ defmodule UnterEatsWeb.Api.Resolvers.OrderResolvers do
     {:ok, Payments.get_or_create_order_payment_intent(order)}
   end
 
-  def paginate_orders(~M{params}, _) do
+  def paginate_orders(%{params: params}, _) do
     {:ok, Orders.filter_and_paginate_orders(params)}
   end
 end

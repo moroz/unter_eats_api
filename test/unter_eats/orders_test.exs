@@ -9,10 +9,10 @@ defmodule UnterEats.OrdersTest do
       lamburchili = insert(:product, name_pl: "Lamburchili", price: "21", slug: "lamburchili")
       dal = insert(:product, name_pl: "Dal tarkari", price: "37", slug: "dal")
 
-      ~M{lamburchili, dal}
+      %{lamburchili: lamburchili, dal: dal}
     end
 
-    test "creates order with valid params", ~M{lamburchili, dal} do
+    test "creates order with valid params", %{lamburchili: lamburchili, dal: dal} do
       Store.open_store()
 
       params = %{

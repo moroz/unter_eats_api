@@ -1,6 +1,5 @@
 defmodule UnterEatsWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :unter_eats
-  use Appsignal.Phoenix
   use Absinthe.Phoenix.Endpoint
 
   # The session will be stored in the cookie and signed,

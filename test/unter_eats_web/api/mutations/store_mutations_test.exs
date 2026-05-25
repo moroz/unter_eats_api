@@ -29,7 +29,7 @@ defmodule UnterEatsWeb.Api.Mutations.StoreMutationsTest do
       assert error["message"] =~ "authenticate"
     end
 
-    test "opens the store when not open yet", ~M{user} do
+    test "opens the store when not open yet", %{user: user} do
       %{"result" => %{"success" => true, "errors" => [], "data" => actual}} =
         mutate_with_user(@mutation, user, %{})
 
@@ -37,7 +37,7 @@ defmodule UnterEatsWeb.Api.Mutations.StoreMutationsTest do
       refute actual["endTime"]
     end
 
-    test "does not open the store and returns error when already open", ~M{user} do
+    test "does not open the store and returns error when already open", %{user: user} do
       Store.open_store()
 
       %{"result" => %{"success" => false, "errors" => [error], "data" => nil}} =
@@ -70,7 +70,7 @@ defmodule UnterEatsWeb.Api.Mutations.StoreMutationsTest do
       assert error["message"] =~ "authenticate"
     end
 
-    test "closes the store when open", ~M{user} do
+    test "closes the store when open", %{user: user} do
       start_time =
         Timex.now() |> Timex.shift(hours: -1) |> Timex.to_datetime() |> DateTime.truncate(:second)
 
@@ -86,7 +86,7 @@ defmodule UnterEatsWeb.Api.Mutations.StoreMutationsTest do
       refute Timex.after?(end_time, Timex.now())
     end
 
-    test "does not close the store and returns error when not open", ~M{user} do
+    test "does not close the store and returns error when not open", %{user: user} do
       %{"result" => %{"success" => false, "errors" => [error], "data" => nil}} =
         mutate_with_user(@mutation, user, %{})
 

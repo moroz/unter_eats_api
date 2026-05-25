@@ -39,7 +39,7 @@ defmodule UnterEatsWeb.Api.Mutations.ProductsMutationsTest do
       assert Repo.count(Product) == 0
     end
 
-    test "creates product when called with valid params", ~M{user} do
+    test "creates product when called with valid params", %{user: user} do
       params = params_for(:product, price: 18.5, name_en: "Some product")
       vars = %{params: params}
 
@@ -51,7 +51,7 @@ defmodule UnterEatsWeb.Api.Mutations.ProductsMutationsTest do
       assert actual["price"] == "18.5"
     end
 
-    test "returns errors when called with invalid params", ~M{user} do
+    test "returns errors when called with invalid params", %{user: user} do
       params = params_for(:product, price: -20)
       vars = %{params: params}
 
@@ -100,7 +100,7 @@ defmodule UnterEatsWeb.Api.Mutations.ProductsMutationsTest do
       in_stock: false
     }
 
-    test "denies access when called without user", ~M{product} do
+    test "denies access when called without user", %{product: product} do
       assert product.in_stock
       vars = %{id: product.id, params: @valid_params}
 
@@ -111,7 +111,7 @@ defmodule UnterEatsWeb.Api.Mutations.ProductsMutationsTest do
       assert Repo.reload(product) == product
     end
 
-    test "updates product with valid params", ~M{user, product} do
+    test "updates product with valid params", %{user: user, product: product} do
       vars = %{id: product.id, params: @valid_params}
       assert product.in_stock
 
@@ -126,7 +126,7 @@ defmodule UnterEatsWeb.Api.Mutations.ProductsMutationsTest do
       assert actual["inStock"] == false
     end
 
-    test "does not update product with invalid params", ~M{user, product} do
+    test "does not update product with invalid params", %{user: user, product: product} do
       vars = %{id: product.id, params: %{@valid_params | name_pl: ""}}
 
       %{"updateProduct" => %{"success" => false, "data" => nil, "errors" => [error]}} =

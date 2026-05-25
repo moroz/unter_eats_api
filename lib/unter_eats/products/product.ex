@@ -31,4 +31,9 @@ defmodule UnterEats.Products.Product do
     |> SlugHelpers.maybe_set_slug()
     |> validate_required([:slug])
   end
+
+  def in_stock_changeset(product, attrs) do
+    product
+    |> cast(attrs, [:in_stock])
+  end
 end

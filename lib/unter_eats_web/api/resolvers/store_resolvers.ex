@@ -1,6 +1,5 @@
 defmodule UnterEatsWeb.Api.Resolvers.StoreResolvers do
   alias UnterEats.Store
-  import ShorterMaps
 
   def is_store_open(_, _) do
     {:ok, Store.is_store_open?()}
@@ -18,7 +17,7 @@ defmodule UnterEatsWeb.Api.Resolvers.StoreResolvers do
     end
   end
 
-  def filter_and_paginate_business_logs(~M{params}, _) do
+  def filter_and_paginate_business_logs(%{params: params}, _) do
     {:ok, Store.filter_and_paginate_business_logs(params)}
   end
 end

@@ -1,6 +1,5 @@
 defmodule UnterEatsWeb.Api.SignIn do
   @behaviour Absinthe.Middleware
-  import ShorterMaps
 
   alias UnterEats.Users
   alias UnterEats.Users.User
@@ -8,7 +7,7 @@ defmodule UnterEatsWeb.Api.SignIn do
   def call(%Absinthe.Resolution{state: :resolved} = res, _opts), do: res
 
   def call(%Absinthe.Resolution{} = res, _opts) do
-    ~M{email, password} = res.arguments
+    %{email: email, password: password} = res.arguments
 
     case Users.authenticate_user_by_email_password(email, password) do
       {:ok, %User{} = user} ->

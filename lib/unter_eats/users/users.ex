@@ -7,9 +7,18 @@ defmodule UnterEats.Users do
   end
 
   def authenticate_user_by_email_password(email, password) do
-    User
-    |> Repo.get_by(email: email)
-    |> Bcrypt.check_pass(password, hide_user: true)
+    case Repo.get_by(User, email: email) do
+      %User{password_hash: hash} = user ->
+        if Bcrypt.verify_pass(password, hash) do
+          {:ok, user}
+        else
+          :error
+        end
+
+      _ ->
+        Bcrypt.no_user_verify()
+        :error
+    end
   end
 
   def create_user(attrs) do

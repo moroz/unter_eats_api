@@ -30,11 +30,14 @@ defmodule UnterEatsWeb.Api.OrderMutationsTest do
     dal = build(:product, price: 37) |> with_name("Dal tarkari") |> insert()
     Store.open_store()
 
-    ~M{lamburchili, dal}
+    %{lamburchili: lamburchili, dal: dal}
   end
 
   describe "createOrder mutation" do
-    test "creates order with correct total and a payment intent", ~M{lamburchili, dal} do
+    test "creates order with correct total and a payment intent", %{
+      lamburchili: lamburchili,
+      dal: dal
+    } do
       params = %{
         first_name: "Jan",
         last_name: "Nowak",
@@ -103,7 +106,7 @@ defmodule UnterEatsWeb.Api.OrderMutationsTest do
       assert error["message"] =~ "authenticate"
     end
 
-    test "returns error when called with unpaid order", ~M{user} do
+    test "returns error when called with unpaid order", %{user: user} do
       vars = %{id: insert(:order).id}
 
       %{"result" => %{"success" => false, "errors" => [errors]}} =
@@ -112,7 +115,7 @@ defmodule UnterEatsWeb.Api.OrderMutationsTest do
       assert errors["message"] =~ "paid"
     end
 
-    test "returns error when called with fulfilled order", ~M{user} do
+    test "returns error when called with fulfilled order", %{user: user} do
       order = build(:order) |> paid() |> fulfilled() |> insert()
       vars = %{id: order.id}
 
@@ -122,7 +125,7 @@ defmodule UnterEatsWeb.Api.OrderMutationsTest do
       assert errors["message"] =~ "fulfilled"
     end
 
-    test "marks order as fulfilled when called with valid params", ~M{user} do
+    test "marks order as fulfilled when called with valid params", %{user: user} do
       order = build(:order) |> paid() |> insert()
       vars = %{id: order.id}
 
