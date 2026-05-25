@@ -19,7 +19,7 @@ defmodule UnterEatsWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: UnterEatsWeb
+      use Phoenix.Controller, formats: [:json]
 
       import Plug.Conn
       import UnterEatsWeb.Gettext
